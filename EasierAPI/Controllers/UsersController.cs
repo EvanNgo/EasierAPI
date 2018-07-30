@@ -18,68 +18,53 @@ namespace EasierAPI.Controllers
     {
         private easier_database db = new easier_database();
 
-        // GET: api/Users
-        public IQueryable<User> GetUsers()
-        {
-            return db.Users;
-        }
-
-        // GET: api/Users/5
-        [ResponseType(typeof(User))]
-        public IHttpActionResult GetUser(int id)
-        {
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            user.Questions = null;
-            return Ok(user);
-        }
-
-        // PUT: api/Users/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutUser(int id, User user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        [Route("api/login")]
-        [HttpPost]
-        public ResponseMessageModels Login(Login login)
+        // GET: api/users
+        [Route("api/users")]
+        [HttpGet]
+        public ResponseMessageModels GetUsers()
         {
             ResponseMessageModels result = new ResponseMessageModels();
-            String hash = getMd5Hash(login.Password);
-            String mEmail = login.Email + ".com";
-            User user = db.Users.FirstOrDefault(u => u.Email.Equals(mEmail) && u.HashPass.Equals(hash));
+            var user = from u in db.Users
+                       select new
+                       {
+                           id = u.Id,
+                           email = u.Email,
+                           username = u.UserName,
+                           thumbnail = u.Thumbnail
+                       };
+            if (user == null) {
+                result.status = 0;
+                result.message = "Is Empty";
+                result.data = null;
+            }
+            result.status = 1;
+            result.message = "Get List User Successfully";
+            result.data = user;
+            return result;
+        }
+
+        //Login
+        [Route("api/user/login")]
+        [HttpPost]
+        public ResponseMessageModels Login(User mUser)
+        {
+            ResponseMessageModels result = new ResponseMessageModels();
+            if (mUser.Email == null || mUser.HashPass == null) {
+                result.status = 0;
+                result.message = "Email or Password is empty";
+                result.data = null;
+                return result;
+            }
+            String hash = getMd5Hash(mUser.HashPass);
+            String mEmail = mUser.Email + ".com";
+            var user = from u in db.Users
+                        where u.Email == mEmail && u.HashPass == hash
+                        select new {
+                            id = u.Id,
+                            email = u.Email,
+                            username = u.UserName,
+                            thumbnail = u.Thumbnail
+                        };
             if (user == null)
             {
                 result.status = 0;
@@ -89,40 +74,52 @@ namespace EasierAPI.Controllers
             }
             result.status = 1;
             result.message = "Login Successfully";
-            UserInfo userInfo = new UserInfo(user);
-            result.data = userInfo;
+            result.data = user;
             return result;
         }
 
-        // POST: api/Users
-        [ResponseType(typeof(User))]
-        public IHttpActionResult PostUser(User user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            user.HashPass = getMd5Hash(user.HashPass);
-            db.Users.Add(user);
-            db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = user.Id }, user);
+    //Register
+        [Route("api/user/register")]
+        [HttpPost]
+        public ResponseMessageModels Register(User mUser)
+        {
+            ResponseMessageModels result = new ResponseMessageModels();
+            mUser.HashPass = getMd5Hash(mUser.HashPass);
+            mUser.Email = mUser.Email + ".com";
+            if (UserExists(mUser.Email)) {
+                result.status = 0;
+                result.message = "Register Fail, This is Email is used";
+                result.data = null;
+                return result;
+            }
+            db.Users.Add(mUser);
+            db.SaveChanges();
+            var id = mUser.Id;
+            result.status = id;
+            result.message = "Regsiter Successfully";
+            result.data = null;
+            return result;
         }
 
-        // DELETE: api/Users/5
-        [ResponseType(typeof(User))]
-        public IHttpActionResult DeleteUser(int id)
+        [Route("api/user/delete")]
+        [HttpPost]
+        public ResponseMessageModels Remove(User mUser)
         {
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return NotFound();
+            ResponseMessageModels result = new ResponseMessageModels();
+            User user = db.Users.Find(mUser.Id);
+            if (user == null) {
+                result.status = 0;
+                result.message = "Not Found";
+                result.data = null;
+                return result;
             }
-
             db.Users.Remove(user);
             db.SaveChanges();
-
-            return Ok(user);
+            result.status = 1;
+            result.message = "Remove Successfuly";
+            result.data = null;
+            return result;
         }
 
         protected override void Dispose(bool disposing)
@@ -134,10 +131,11 @@ namespace EasierAPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool UserExists(int id)
+        private bool UserExists(string email)
         {
-            return db.Users.Count(e => e.Id == id) > 0;
+            return db.Users.Count(e => e.Email == email) > 0;
         }
+
         private string getMd5Hash(string input)
         { // Create a new instance of the MD5CryptoServiceProvider object.
             MD5 md5Hasher = MD5.Create(); // Convert the input string to a byte array and compute the hash.
@@ -150,5 +148,6 @@ namespace EasierAPI.Controllers
             }
             return sBuilder.ToString();
         }
+
     }
 }

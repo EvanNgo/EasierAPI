@@ -16,89 +16,66 @@ namespace EasierAPI.Controllers
     {
         private easier_database db = new easier_database();
 
-        // GET: api/Questions
-        public IQueryable<Question> GetQuestions()
+        [Route("api/questions")]
+        [HttpGet]
+        public ResponseMessageModels GetQuestion()
         {
-            return db.Questions;
-        }
-
-        // GET: api/Questions/5
-        [ResponseType(typeof(Question))]
-        public IHttpActionResult GetQuestion(int id)
-        {
-            Question question = db.Questions.Find(id);
+            ResponseMessageModels result = new ResponseMessageModels();
+            var question = from u in db.Questions
+                           select new
+                           {
+                               id = u.Id,
+                               title = u.Title,
+                               thumbnail = u.Thumbnail,
+                               level = u.Level,
+                               answercount = u.AnswerCount,
+                               colorid = u.ColorId,
+                               message = u.Message,
+                               choices = from choice in db.Choices where choice.QuestionId == u.Id select new {
+                                   id = choice.Id,
+                                   message = choice.Message,
+                                   istrue = choice.IsTrue,
+                                   thumbnail = choice.Thumbnail,
+                                   selectedcount = choice.SelectedCount
+                               },
+                               user = from user in db.Users
+                                      where user.Id == u.UserId
+                                      select new { userName = user.UserName,
+                                                   id = user.Id,
+                                                   thumbnail = user.Thumbnail}
+                       };
             if (question == null)
             {
-                return NotFound();
+                result.status = 0;
+                result.message = "Is Empty";
+                result.data = null;
             }
-
-            return Ok(question);
+            result.status = 1;
+            result.message = "Get List User Successfully";
+            result.data = question;
+            return result;
         }
 
-        // PUT: api/Questions/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutQuestion(int id, Question question)
+        [Route("api/question/create")]
+        [HttpPost]
+        public ResponseMessageModels CrateQuestion(Question question)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != question.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(question).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!QuestionExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // POST: api/Questions
-        [ResponseType(typeof(Question))]
-        public IHttpActionResult PostQuestion(Question question)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
+            ResponseMessageModels result = new ResponseMessageModels();
             db.Questions.Add(question);
             db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = question.Id }, question);
-        }
-
-        // DELETE: api/Questions/5
-        [ResponseType(typeof(Question))]
-        public IHttpActionResult DeleteQuestion(int id)
-        {
-            Question question = db.Questions.Find(id);
-            if (question == null)
+            for (int i = 0; i < 4; i++)
             {
-                return NotFound();
+                Choice choice = new Choice();
+                choice.Message = "Choice " + i;
+                choice.QuestionId = question.Id;
+                db.Choices.Add(choice);
+                db.SaveChanges();
+                question.Choices.Add(choice);
             }
-
-            db.Questions.Remove(question);
-            db.SaveChanges();
-
-            return Ok(question);
+            result.status = 1;
+            result.message = "Question is Created";
+            result.data = question;
+            return result;
         }
 
         protected override void Dispose(bool disposing)
@@ -114,5 +91,7 @@ namespace EasierAPI.Controllers
         {
             return db.Questions.Count(e => e.Id == id) > 0;
         }
+
+
     }
 }

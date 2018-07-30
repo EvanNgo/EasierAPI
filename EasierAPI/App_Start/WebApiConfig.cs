@@ -25,12 +25,6 @@ namespace EasierAPI
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
-            config.Routes.MapHttpRoute(
-                name: "EmailApi", 
-                routeTemplate: "api/users/{email}", 
-                defaults: new { email = RouteParameter.Optional}
-           );
         }
     }
 }

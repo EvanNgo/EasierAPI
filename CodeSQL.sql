@@ -28,13 +28,27 @@ CREATE TABLE [dbo].[Questions] (
     [Title]       VARCHAR (255)		NOT NULL,
 	[Message]     VARCHAR (1000)	NULL,
 	[Thumbnail]   VARCHAR(2083)		NULL,
+	[AnswerCount]   INT	DEFAULT(0)	NULL,
 	[Level]		  INT				NOT NULL,
 	[ColorId]     INT				NULL,
     [CreatedDate] DATE				NOT NULL,
+);
+
+CREATE TABLE [dbo].[Choices] (
+    [Id]          INT PRIMARY KEY IDENTITY (1, 1) NOT NULL,
+    [QuestionId]      INT				NOT NULL,
+    [Message]       VARCHAR (255)	 NULL,
+	[Thumbnail]   VARCHAR(2083)		NULL,
+	[SelectedCount]   INT	DEFAULT(0)	NULL,
+	[IsTrue]		  BIT				DEFAULT (0)
 );
 
 ALTER TABLE [dbo].[Users]  
 ADD CONSTRAINT PK_Users PRIMARY KEY CLUSTERED (Id);  
 
 ALTER TABLE [dbo].[Questions] ADD CONSTRAINT FK_User FOREIGN KEY(UserId) REFERENCES Users(Id);
+
+ALTER TABLE [dbo].[Choices] ADD CONSTRAINT FK_Question FOREIGN KEY(QuestionId) REFERENCES Questions(Id);
+
+ALTER TABLE [dbo].[Questions] ADD AnswerCount INT DEFAULT(0);
 */

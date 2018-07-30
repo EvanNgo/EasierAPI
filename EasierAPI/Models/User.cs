@@ -11,7 +11,7 @@ namespace EasierAPI.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,7 +19,7 @@ namespace EasierAPI.Models
         {
             this.Questions = new HashSet<Question>();
         }
-
+    
         public int Id { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
@@ -29,13 +29,8 @@ namespace EasierAPI.Models
         public System.DateTime UpdatedDate { get; set; }
         public bool EmailVerity { get; set; }
         public string Thumbnail { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Question> Questions { get; set; }
-    }
-
-    public partial class Login{
-        public string Email { get; set; }
-        public string Password { get; set; }
     }
 }

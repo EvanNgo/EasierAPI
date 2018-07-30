@@ -101,3 +101,5 @@ C:\VietIS\Private\EasierAPI\EasierAPI\obj\Debug\EasierAPI.csproj.CoreCompileInpu
 C:\VietIS\Private\EasierAPI\EasierAPI\obj\Debug\EasierAPI.csproj.CopyComplete
 C:\VietIS\Private\EasierAPI\EasierAPI\obj\Debug\EasierAPI.dll
 C:\VietIS\Private\EasierAPI\EasierAPI\obj\Debug\EasierAPI.pdb
+C:\VietIS\Private\EasierAPI\EasierAPI\bin\System.Web.Abstractions.dll
+C:\VietIS\Private\EasierAPI\EasierAPI\bin\System.Web.Routing.dll

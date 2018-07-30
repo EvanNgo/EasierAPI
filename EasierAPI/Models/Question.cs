@@ -14,6 +14,12 @@ namespace EasierAPI.Models
     
     public partial class Question
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Question()
+        {
+            this.Choices = new HashSet<Choice>();
+        }
+    
         public int Id { get; set; }
         public int UserId { get; set; }
         public string Title { get; set; }
@@ -22,7 +28,10 @@ namespace EasierAPI.Models
         public int Level { get; set; }
         public Nullable<int> ColorId { get; set; }
         public System.DateTime CreatedDate { get; set; }
+        public Nullable<int> AnswerCount { get; set; }
     
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Choice> Choices { get; set; }
     }
 }
