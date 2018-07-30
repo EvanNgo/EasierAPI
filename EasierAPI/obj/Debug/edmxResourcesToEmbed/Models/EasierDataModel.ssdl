@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="easi5810_easierjlptModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Choices">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuestionID" Type="int" Nullable="false" />
+    <Property Name="Message" Type="varchar" MaxLength="128" />
+    <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
+    <Property Name="TheAnswer" Type="bit" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Message" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="QuestionID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Likes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="QuestionID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Questions">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="PostTime" Type="datetime" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="Survey" Type="bit" Nullable="false" />
+    <Property Name="Level" Type="int" Nullable="false" />
+    <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
+    <Property Name="ColorCode" Type="varchar" MaxLength="8" />
+    <Property Name="Content" Type="varchar" MaxLength="1000" />
+    <Property Name="Sound" Type="varchar" MaxLength="2083" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Verify" Type="bit" Nullable="false" />
+    <Property Name="Password" Type="char" MaxLength="32" />
+    <Property Name="Point" Type="int" Nullable="false" />
+    <Property Name="Birthyear" Type="int" Nullable="false" />
+    <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
+    <Property Name="Status" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <Association Name="FK__Comments__Questi__5CD6CB2B">
+    <End Role="Questions" Type="Self.Questions" Multiplicity="1" />
+    <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Comments__UserID__5DCAEF64">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Likes__QuestionI__5BE2A6F2">
+    <End Role="Questions" Type="Self.Questions" Multiplicity="1" />
+    <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Likes">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Likes__UserID__5EBF139D">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Likes">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Questions__UserI__5AEE82B9">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Questions">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="QuestionID">
+    <End Role="Questions" Type="Self.Questions" Multiplicity="1" />
+    <End Role="Choices" Type="Self.Choices" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Choices">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="easi5810_easierjlptModelStoreContainer">
+    <EntitySet Name="Choices" EntityType="Self.Choices" Schema="easi5810_admin" store:Type="Tables" />
+    <EntitySet Name="Comments" EntityType="Self.Comments" Schema="easi5810_admin" store:Type="Tables" />
+    <EntitySet Name="Likes" EntityType="Self.Likes" Schema="easi5810_admin" store:Type="Tables" />
+    <EntitySet Name="Questions" EntityType="Self.Questions" Schema="easi5810_admin" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="easi5810_admin" store:Type="Tables" />
+    <AssociationSet Name="FK__Comments__Questi__5CD6CB2B" Association="Self.FK__Comments__Questi__5CD6CB2B">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Comments__UserID__5DCAEF64" Association="Self.FK__Comments__UserID__5DCAEF64">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Likes__QuestionI__5BE2A6F2" Association="Self.FK__Likes__QuestionI__5BE2A6F2">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="Likes" EntitySet="Likes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Likes__UserID__5EBF139D" Association="Self.FK__Likes__UserID__5EBF139D">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Likes" EntitySet="Likes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Questions__UserI__5AEE82B9" Association="Self.FK__Questions__UserI__5AEE82B9">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Questions" EntitySet="Questions" />
+    </AssociationSet>
+    <AssociationSet Name="QuestionID" Association="Self.QuestionID">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="Choices" EntitySet="Choices" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

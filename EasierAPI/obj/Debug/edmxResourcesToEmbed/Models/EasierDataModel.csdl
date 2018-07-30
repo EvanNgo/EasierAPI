@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="easi5810_easierjlptModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Choice">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuestionID" Type="Int32" Nullable="false" />
+    <Property Name="Message" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Thumbnail" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
+    <Property Name="TheAnswer" Type="Boolean" />
+    <NavigationProperty Name="Question" Relationship="Self.QuestionID" FromRole="Choices" ToRole="Questions" />
+  </EntityType>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Message" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="QuestionID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Question" Relationship="Self.FK__Comments__Questi__5CD6CB2B" FromRole="Comments" ToRole="Questions" />
+    <NavigationProperty Name="User" Relationship="Self.FK__Comments__UserID__5DCAEF64" FromRole="Comments" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Like">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="QuestionID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Question" Relationship="Self.FK__Likes__QuestionI__5BE2A6F2" FromRole="Likes" ToRole="Questions" />
+    <NavigationProperty Name="User" Relationship="Self.FK__Likes__UserID__5EBF139D" FromRole="Likes" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Question">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PostTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="Type" Type="Int32" Nullable="false" />
+    <Property Name="Survey" Type="Boolean" Nullable="false" />
+    <Property Name="Level" Type="Int32" Nullable="false" />
+    <Property Name="Thumbnail" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
+    <Property Name="ColorCode" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+    <Property Name="Content" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Sound" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Choices" Relationship="Self.QuestionID" FromRole="Questions" ToRole="Choices" />
+    <NavigationProperty Name="Comments" Relationship="Self.FK__Comments__Questi__5CD6CB2B" FromRole="Questions" ToRole="Comments" />
+    <NavigationProperty Name="Likes" Relationship="Self.FK__Likes__QuestionI__5BE2A6F2" FromRole="Questions" ToRole="Likes" />
+    <NavigationProperty Name="User" Relationship="Self.FK__Questions__UserI__5AEE82B9" FromRole="Questions" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Verify" Type="Boolean" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="32" FixedLength="true" Unicode="false" />
+    <Property Name="Point" Type="Int32" Nullable="false" />
+    <Property Name="Birthyear" Type="Int32" Nullable="false" />
+    <Property Name="Thumbnail" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Comments" Relationship="Self.FK__Comments__UserID__5DCAEF64" FromRole="Users" ToRole="Comments" />
+    <NavigationProperty Name="Likes" Relationship="Self.FK__Likes__UserID__5EBF139D" FromRole="Users" ToRole="Likes" />
+    <NavigationProperty Name="Questions" Relationship="Self.FK__Questions__UserI__5AEE82B9" FromRole="Users" ToRole="Questions" />
+  </EntityType>
+  <Association Name="QuestionID">
+    <End Role="Questions" Type="Self.Question" Multiplicity="1" />
+    <End Role="Choices" Type="Self.Choice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Choices">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Comments__Questi__5CD6CB2B">
+    <End Role="Questions" Type="Self.Question" Multiplicity="1" />
+    <End Role="Comments" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Comments__UserID__5DCAEF64">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Comments" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Likes__QuestionI__5BE2A6F2">
+    <End Role="Questions" Type="Self.Question" Multiplicity="1" />
+    <End Role="Likes" Type="Self.Like" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Likes">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Likes__UserID__5EBF139D">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Likes" Type="Self.Like" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Likes">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Questions__UserI__5AEE82B9">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Questions" Type="Self.Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Questions">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="easi5810_easierjlptEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Choices" EntityType="Self.Choice" />
+    <EntitySet Name="Comments" EntityType="Self.Comment" />
+    <EntitySet Name="Likes" EntityType="Self.Like" />
+    <EntitySet Name="Questions" EntityType="Self.Question" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="QuestionID" Association="Self.QuestionID">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="Choices" EntitySet="Choices" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Comments__Questi__5CD6CB2B" Association="Self.FK__Comments__Questi__5CD6CB2B">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Comments__UserID__5DCAEF64" Association="Self.FK__Comments__UserID__5DCAEF64">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Likes__QuestionI__5BE2A6F2" Association="Self.FK__Likes__QuestionI__5BE2A6F2">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="Likes" EntitySet="Likes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Likes__UserID__5EBF139D" Association="Self.FK__Likes__UserID__5EBF139D">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Likes" EntitySet="Likes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Questions__UserI__5AEE82B9" Association="Self.FK__Questions__UserI__5AEE82B9">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Questions" EntitySet="Questions" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

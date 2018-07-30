@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="easi5810_easierjlptModelStoreContainer" CdmEntityContainer="easi5810_easierjlptEntities">
+    <EntitySetMapping Name="Choices">
+      <EntityTypeMapping TypeName="easi5810_easierjlptModel.Choice">
+        <MappingFragment StoreEntitySet="Choices">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
+          <ScalarProperty Name="TheAnswer" ColumnName="TheAnswer" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Comments">
+      <EntityTypeMapping TypeName="easi5810_easierjlptModel.Comment">
+        <MappingFragment StoreEntitySet="Comments">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Likes">
+      <EntityTypeMapping TypeName="easi5810_easierjlptModel.Like">
+        <MappingFragment StoreEntitySet="Likes">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Questions">
+      <EntityTypeMapping TypeName="easi5810_easierjlptModel.Question">
+        <MappingFragment StoreEntitySet="Questions">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="PostTime" ColumnName="PostTime" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Survey" ColumnName="Survey" />
+          <ScalarProperty Name="Level" ColumnName="Level" />
+          <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
+          <ScalarProperty Name="ColorCode" ColumnName="ColorCode" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="Sound" ColumnName="Sound" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="easi5810_easierjlptModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Verify" ColumnName="Verify" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Point" ColumnName="Point" />
+          <ScalarProperty Name="Birthyear" ColumnName="Birthyear" />
+          <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
