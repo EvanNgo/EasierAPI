@@ -44,7 +44,7 @@ namespace EasierAPI.Controllers
                                                    id = user.Id,
                                                    thumbnail = user.Thumbnail}
                        };
-            if (question == null)
+            if (question == null || question.Count() <= 0)
             {
                 result.status = 0;
                 result.message = "Is Empty";

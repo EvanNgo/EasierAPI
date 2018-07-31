@@ -18,6 +18,7 @@ namespace EasierAPI.Controllers
     {
         private easier_database db = new easier_database();
 
+        /*
         // GET: api/users
         [Route("api/users")]
         [HttpGet]
@@ -42,6 +43,7 @@ namespace EasierAPI.Controllers
             result.data = user;
             return result;
         }
+        */
 
         //Login
         [Route("api/user/login")]
@@ -65,7 +67,7 @@ namespace EasierAPI.Controllers
                             username = u.UserName,
                             thumbnail = u.Thumbnail
                         };
-            if (user == null)
+            if (user == null || user.Count() <= 0)
             {
                 result.status = 0;
                 result.message = "Invailid Email or Passsword";
@@ -101,14 +103,14 @@ namespace EasierAPI.Controllers
             result.data = null;
             return result;
         }
-
+        /*
         [Route("api/user/delete")]
         [HttpPost]
         public ResponseMessageModels Remove(User mUser)
         {
             ResponseMessageModels result = new ResponseMessageModels();
             User user = db.Users.Find(mUser.Id);
-            if (user == null) {
+            if (user == null || ) {
                 result.status = 0;
                 result.message = "Not Found";
                 result.data = null;
@@ -121,6 +123,7 @@ namespace EasierAPI.Controllers
             result.data = null;
             return result;
         }
+        */
 
         protected override void Dispose(bool disposing)
         {
