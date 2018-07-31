@@ -15,7 +15,33 @@ namespace EasierAPI.Controllers
     public class ChoicesController : ApiController
     {
         private easier_database db = new easier_database();
-        
+
+        [Route("api/choices")]
+        [HttpGet]
+        public ResponseMessageModels GetChoices()
+        {
+            ResponseMessageModels result = new ResponseMessageModels();
+            var choice = from u in db.Choices
+                         select new
+                         {
+                             id = u.Id,
+                             message = u.Message,
+                             thumbnail = u.Thumbnail,
+                             isTrue = u.IsTrue,
+                             selectedCount = u.SelectedCount,
+                             questionId = u.QuestionId };
+            if (choice == null)
+            {
+                result.status = 0;
+                result.message = "Is Empty";
+                result.data = null;
+            }
+            result.status = 1;
+            result.message = "Get List Choice Successfully";
+            result.data = choice;
+            return result;
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -63,15 +63,7 @@ namespace EasierAPI.Controllers
             ResponseMessageModels result = new ResponseMessageModels();
             db.Questions.Add(question);
             db.SaveChanges();
-            for (int i = 0; i < 4; i++)
-            {
-                Choice choice = new Choice();
-                choice.Message = "Choice " + i;
-                choice.QuestionId = question.Id;
-                db.Choices.Add(choice);
-                db.SaveChanges();
-                question.Choices.Add(choice);
-            }
+            
             result.status = 1;
             result.message = "Question is Created";
             result.data = question;
@@ -92,6 +84,51 @@ namespace EasierAPI.Controllers
             return db.Questions.Count(e => e.Id == id) > 0;
         }
 
+        [Route("api/question/delete")]
+        [HttpPost]
+        public ResponseMessageModels Remove(Question mQuestion)
+        {
+            ResponseMessageModels result = new ResponseMessageModels();
+            Question question = db.Questions.Where(a => a.Id == mQuestion.Id).SingleOrDefault();
+            
+            if (question == null)
+            {
+                result.status = 0;
+                result.message = "Not Found";
+                result.data = null;
+                return result;
+            }
+            var choices = db.Choices.Where(b => b.QuestionId == question.Id).AsEnumerable();
+            foreach (var choice in choices)
+            {
+                db.Choices.Remove(choice);
+            }
+            db.SaveChanges();
+            db.Questions.Remove(question);
+            db.SaveChanges();
+            result.status = 1;
+            result.message = "Remove Successfuly";
+            result.data = null;
+            return result;
+        }
 
+        [Route("api/question")]
+        [HttpPost]
+        public ResponseMessageModels GetQuestionByID(Question mQuestion)
+        {
+            ResponseMessageModels result = new ResponseMessageModels();
+            Question question = db.Questions.Find(mQuestion.Id);
+            if (question == null)
+            {
+                result.status = 0;
+                result.message = "Not Found";
+                result.data = null;
+                return result;
+            }
+            result.status = 1;
+            result.message = "Get Question Successfully";
+            result.data = question;
+            return result;
+        }
     }
 }
