@@ -203,8 +203,8 @@ E:\Github\EasierAPI\EasierAPI\bin\Microsoft.AI.DependencyCollector.xml
 E:\Github\EasierAPI\EasierAPI\bin\Microsoft.AI.WindowsServer.xml
 E:\Github\EasierAPI\EasierAPI\bin\Microsoft.AI.Web.xml
 E:\Github\EasierAPI\EasierAPI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-E:\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.csprojAssemblyReference.cache
 E:\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.csproj.CoreCompileInputs.cache
 E:\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.csproj.CopyComplete
 E:\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.dll
 E:\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.pdb
+E:\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.csprojAssemblyReference.cache

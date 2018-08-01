@@ -30,7 +30,8 @@ namespace EasierAPI.Controllers
                                level = u.Level,
                                answercount = u.AnswerCount,
                                colorid = u.ColorId,
-                               message = u.Message,
+                               content = u.Content,
+                               type = u.Type,
                                choices = from choice in db.Choices where choice.QuestionId == u.Id select new {
                                    id = choice.Id,
                                    message = choice.Message,
@@ -38,12 +39,12 @@ namespace EasierAPI.Controllers
                                    thumbnail = choice.Thumbnail,
                                    selectedcount = choice.SelectedCount
                                },
-                               user = from user in db.Users
+                               user = (from user in db.Users
                                       where user.Id == u.UserId
-                                      select new { userName = user.UserName,
+                                      select new { username = user.UserName,
                                                    id = user.Id,
-                                                   thumbnail = user.Thumbnail}
-                       };
+                                                   thumbnail = user.Thumbnail}).FirstOrDefault()
+                           };
             if (question == null || question.Count() <= 0)
             {
                 result.status = 0;
@@ -62,11 +63,40 @@ namespace EasierAPI.Controllers
         {
             ResponseMessageModels result = new ResponseMessageModels();
             db.Questions.Add(question);
-            db.SaveChanges();
-            
+            db.SaveChanges();           
+            var mQuestion = from u in db.Questions
+                            where u.Id == question.Id
+                            select new
+                            {
+                                id = u.Id,
+                                title = u.Title,
+                                thumbnail = u.Thumbnail,
+                                level = u.Level,
+                                answercount = u.AnswerCount,
+                                colorid = u.ColorId,
+                                content = u.Content,
+                                type = u.Type,
+                                choices = from choice in db.Choices
+                                          where choice.QuestionId == u.Id
+                                          select new
+                                          {
+                                              id = choice.Id,
+                                              message = choice.Message,
+                                              istrue = choice.IsTrue,
+                                              thumbnail = choice.Thumbnail,
+                                              selectedcount = choice.SelectedCount
+                                          },
+                                user = (from user in db.Users
+                                        where user.Id == u.UserId
+                                        select new
+                                        {
+                                            username = user.UserName,
+                                            id = user.Id,
+                                            thumbnail = user.Thumbnail
+                                        }).FirstOrDefault()};
             result.status = 1;
             result.message = "Question is Created";
-            result.data = question;
+            result.data = mQuestion;
             return result;
         }
 

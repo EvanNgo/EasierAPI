@@ -23,12 +23,13 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="Title" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="Message" Type="varchar" MaxLength="1000" />
           <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
           <Property Name="Level" Type="int" Nullable="false" />
           <Property Name="ColorId" Type="int" />
           <Property Name="CreatedDate" Type="date" Nullable="false" />
           <Property Name="AnswerCount" Type="int" />
+          <Property Name="Content" Type="varchar" MaxLength="1024" />
+          <Property Name="Type" Type="int" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -92,7 +93,6 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Message" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="Thumbnail" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
           <Property Name="Level" Type="Int32" Nullable="false" />
           <Property Name="ColorId" Type="Int32" />
@@ -100,6 +100,8 @@
           <NavigationProperty Name="User" Relationship="Self.FK_User" FromRole="Questions" ToRole="Users" />
           <Property Name="AnswerCount" Type="Int32" />
           <NavigationProperty Name="Choices" Relationship="easi5810_easierjlptModel.FK_Question" FromRole="Question" ToRole="Choice" />
+          <Property Name="Content" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="Int32" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -174,11 +176,12 @@
           <EntitySetMapping Name="Questions">
             <EntityTypeMapping TypeName="easi5810_easierjlptModel.Question">
               <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="AnswerCount" ColumnName="AnswerCount" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
                 <ScalarProperty Name="Level" ColumnName="Level" />
                 <ScalarProperty Name="ColorId" ColumnName="ColorId" />

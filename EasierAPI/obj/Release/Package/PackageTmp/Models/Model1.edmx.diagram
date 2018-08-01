@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3f1fdb0deb0e4c54b81ea99ff393a132" Name="Diagram1">
+      <Diagram DiagramId="3f1fdb0deb0e4c54b81ea99ff393a132" Name="Diagram1" ZoomLevel="95">
         <EntityTypeShape EntityType="easi5810_easierjlptModel.Question" Width="1.5" PointX="5.625" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="easi5810_easierjlptModel.User" Width="1.5" PointX="3.125" PointY="1.375" IsExpanded="true" />
         <AssociationConnector Association="easi5810_easierjlptModel.FK_User" ManuallyRouted="false" />

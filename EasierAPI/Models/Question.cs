@@ -23,12 +23,13 @@ namespace EasierAPI.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         public string Title { get; set; }
-        public string Message { get; set; }
         public string Thumbnail { get; set; }
         public int Level { get; set; }
         public Nullable<int> ColorId { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public Nullable<int> AnswerCount { get; set; }
+        public string Content { get; set; }
+        public Nullable<int> Type { get; set; }
     
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

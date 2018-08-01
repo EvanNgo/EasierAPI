@@ -18,12 +18,13 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
     <Property Name="Title" Type="varchar" MaxLength="255" Nullable="false" />
-    <Property Name="Message" Type="varchar" MaxLength="1000" />
     <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
     <Property Name="Level" Type="int" Nullable="false" />
     <Property Name="ColorId" Type="int" />
     <Property Name="CreatedDate" Type="date" Nullable="false" />
     <Property Name="AnswerCount" Type="int" />
+    <Property Name="Content" Type="varchar" MaxLength="1024" />
+    <Property Name="Type" Type="int" />
   </EntityType>
   <EntityType Name="Users">
     <Key>

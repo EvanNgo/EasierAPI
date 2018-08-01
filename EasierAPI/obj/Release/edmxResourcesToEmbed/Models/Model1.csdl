@@ -7,7 +7,6 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="UserId" Type="Int32" Nullable="false" />
     <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Message" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
     <Property Name="Thumbnail" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
     <Property Name="Level" Type="Int32" Nullable="false" />
     <Property Name="ColorId" Type="Int32" />
@@ -15,6 +14,8 @@
     <NavigationProperty Name="User" Relationship="Self.FK_User" FromRole="Questions" ToRole="Users" />
     <Property Name="AnswerCount" Type="Int32" />
     <NavigationProperty Name="Choices" Relationship="easi5810_easierjlptModel.FK_Question" FromRole="Question" ToRole="Choice" />
+    <Property Name="Content" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+    <Property Name="Type" Type="Int32" />
   </EntityType>
   <EntityType Name="User">
     <Key>
