@@ -17,7 +17,7 @@ namespace EasierAPI.Models
         public int Id { get; set; }
         public int QuestionId { get; set; }
         public string Thumbnail { get; set; }
-        public Nullable<int> SelectedCount { get; set; }
+        public int SelectedCount { get; set; }
         public Nullable<bool> IsTrue { get; set; }
         public string Message { get; set; }
     

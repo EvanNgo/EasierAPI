@@ -7,9 +7,9 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="QuestionId" Type="int" Nullable="false" />
     <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
-    <Property Name="SelectedCount" Type="int" />
+    <Property Name="SelectedCount" Type="int" Nullable="false" />
     <Property Name="IsTrue" Type="bit" />
-    <Property Name="Message" Type="varchar" MaxLength="255" />
+    <Property Name="Message" Type="nvarchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="Questions">
     <Key>
@@ -17,12 +17,12 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
-    <Property Name="Title" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="255" />
     <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
     <Property Name="Level" Type="int" Nullable="false" />
     <Property Name="ColorId" Type="int" />
     <Property Name="CreatedDate" Type="date" Nullable="false" />
-    <Property Name="AnswerCount" Type="int" />
+    <Property Name="AnswerCount" Type="int" Nullable="false" />
     <Property Name="Content" Type="varchar" MaxLength="1024" />
     <Property Name="Type" Type="int" />
   </EntityType>
@@ -31,7 +31,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UserName" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="25" />
     <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Birthyear" Type="int" Nullable="false" />
     <Property Name="HashPass" Type="varchar" MaxLength="2083" />

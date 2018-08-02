@@ -27,7 +27,7 @@ namespace EasierAPI.Models
         public int Level { get; set; }
         public Nullable<int> ColorId { get; set; }
         public System.DateTime CreatedDate { get; set; }
-        public Nullable<int> AnswerCount { get; set; }
+        public int AnswerCount { get; set; }
         public string Content { get; set; }
         public Nullable<int> Type { get; set; }
     

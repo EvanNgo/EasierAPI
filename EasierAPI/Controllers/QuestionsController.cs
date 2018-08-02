@@ -62,6 +62,10 @@ namespace EasierAPI.Controllers
         public ResponseMessageModels CrateQuestion(Question question)
         {
             ResponseMessageModels result = new ResponseMessageModels();
+            question.AnswerCount = 0;
+            for (int i = 0; i < question.Choices.Count; i++) {
+                question.Choices.ElementAt(i).SelectedCount = 0;
+            }
             db.Questions.Add(question);
             db.SaveChanges();           
             var mQuestion = from u in db.Questions

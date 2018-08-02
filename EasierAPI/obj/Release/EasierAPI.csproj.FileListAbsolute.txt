@@ -207,4 +207,3 @@ E:\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.csproj.CoreCompileInputs.cac
 E:\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.csproj.CopyComplete
 E:\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.dll
 E:\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.pdb
-E:\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.csprojAssemblyReference.cache

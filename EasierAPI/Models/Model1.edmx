@@ -12,9 +12,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="QuestionId" Type="int" Nullable="false" />
           <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
-          <Property Name="SelectedCount" Type="int" />
+          <Property Name="SelectedCount" Type="int" Nullable="false" />
           <Property Name="IsTrue" Type="bit" />
-          <Property Name="Message" Type="varchar" MaxLength="255" />
+          <Property Name="Message" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Questions">
           <Key>
@@ -22,12 +22,12 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="Title" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" />
           <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
           <Property Name="Level" Type="int" Nullable="false" />
           <Property Name="ColorId" Type="int" />
           <Property Name="CreatedDate" Type="date" Nullable="false" />
-          <Property Name="AnswerCount" Type="int" />
+          <Property Name="AnswerCount" Type="int" Nullable="false" />
           <Property Name="Content" Type="varchar" MaxLength="1024" />
           <Property Name="Type" Type="int" />
         </EntityType>
@@ -36,7 +36,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="25" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Birthyear" Type="int" Nullable="false" />
           <Property Name="HashPass" Type="varchar" MaxLength="2083" />
@@ -92,13 +92,13 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Thumbnail" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
           <Property Name="Level" Type="Int32" Nullable="false" />
           <Property Name="ColorId" Type="Int32" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="User" Relationship="Self.FK_User" FromRole="Questions" ToRole="Users" />
-          <Property Name="AnswerCount" Type="Int32" />
+          <Property Name="AnswerCount" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Choices" Relationship="easi5810_easierjlptModel.FK_Question" FromRole="Question" ToRole="Choice" />
           <Property Name="Content" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
           <Property Name="Type" Type="Int32" />
@@ -108,7 +108,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Birthyear" Type="Int32" Nullable="false" />
           <Property Name="HashPass" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
@@ -150,9 +150,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="QuestionId" Type="Int32" Nullable="false" />
           <Property Name="Thumbnail" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
-          <Property Name="SelectedCount" Type="Int32" />
+          <Property Name="SelectedCount" Type="Int32" Nullable="false" />
           <Property Name="IsTrue" Type="Boolean" />
-          <Property Name="Message" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Question" Relationship="easi5810_easierjlptModel.FK_Question" FromRole="Choice" ToRole="Question" />
         </EntityType>
         <Association Name="FK_Question">

@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="easi5810_easierjlptModel.Question" Width="1.5" PointX="5.625" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="easi5810_easierjlptModel.User" Width="1.5" PointX="3.125" PointY="1.375" IsExpanded="true" />
         <AssociationConnector Association="easi5810_easierjlptModel.FK_User" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="easi5810_easierjlptModel.Choice" Width="1.5" PointX="8" PointY="1.375" />
+        <EntityTypeShape EntityType="easi5810_easierjlptModel.Choice" Width="1.5" PointX="8.25" PointY="1.375" />
         <AssociationConnector Association="easi5810_easierjlptModel.FK_Question" />
       </Diagram>
     </edmx:Diagrams>
