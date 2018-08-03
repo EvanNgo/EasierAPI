@@ -23,7 +23,7 @@
     <Property Name="ColorId" Type="int" />
     <Property Name="CreatedDate" Type="date" Nullable="false" />
     <Property Name="AnswerCount" Type="int" Nullable="false" />
-    <Property Name="Content" Type="varchar" MaxLength="1024" />
+    <Property Name="Content" Type="nvarchar" MaxLength="1000" />
     <Property Name="Type" Type="int" />
   </EntityType>
   <EntityType Name="Users">

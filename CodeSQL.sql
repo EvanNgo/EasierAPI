@@ -52,3 +52,5 @@ ALTER TABLE [dbo].[Choices] ADD CONSTRAINT FK_Question FOREIGN KEY(QuestionId) R
 
 ALTER TABLE [dbo].[Questions] ADD AnswerCount INT DEFAULT(0);
 */
+
+select Id, CreatedDate from [dbo].[Questions]

@@ -22,6 +22,7 @@ namespace EasierAPI.Controllers
         {
             ResponseMessageModels result = new ResponseMessageModels();
             var question = from u in db.Questions
+                           orderby u.Id descending
                            select new
                            {
                                id = u.Id,

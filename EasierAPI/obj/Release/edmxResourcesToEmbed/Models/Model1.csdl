@@ -14,7 +14,7 @@
     <NavigationProperty Name="User" Relationship="Self.FK_User" FromRole="Questions" ToRole="Users" />
     <Property Name="AnswerCount" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Choices" Relationship="easi5810_easierjlptModel.FK_Question" FromRole="Question" ToRole="Choice" />
-    <Property Name="Content" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+    <Property Name="Content" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
     <Property Name="Type" Type="Int32" />
   </EntityType>
   <EntityType Name="User">
