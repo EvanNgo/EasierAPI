@@ -43,7 +43,28 @@ CREATE TABLE [dbo].[Choices] (
 	[IsTrue]		  BIT				DEFAULT (0)
 );
 
+CREATE TABLE [dbo].[QuestionLikes] (
+    [Id]          INT PRIMARY KEY IDENTITY (1, 1) NOT NULL,
+    [QuestionId]      INT				NOT NULL,
+    [UserId]       INT				NOT NULL,
+);
+
+CREATE TABLE [dbo].[QuestionAnswers] (
+    [Id]          INT PRIMARY KEY IDENTITY (1, 1) NOT NULL,
+    [QuestionId]      INT				NOT NULL,
+    [UserId]       INT				NOT NULL,
+	[ChoiceId]       INT				NOT NULL,
+);
+
+CREATE TABLE [dbo].[QuestionComments] (
+    [Id]          INT PRIMARY KEY IDENTITY (1, 1) NOT NULL,
+    [QuestionId]      INT				NOT NULL,
+    [UserId]       INT				NOT NULL,
+	[Message]        NVARCHAR(2083)				NOT NULL,
+);
+
 ALTER TABLE [dbo].[Users]  
+
 ADD CONSTRAINT PK_Users PRIMARY KEY CLUSTERED (Id);  
 
 ALTER TABLE [dbo].[Questions] ADD CONSTRAINT FK_User FOREIGN KEY(UserId) REFERENCES Users(Id);
@@ -51,6 +72,6 @@ ALTER TABLE [dbo].[Questions] ADD CONSTRAINT FK_User FOREIGN KEY(UserId) REFEREN
 ALTER TABLE [dbo].[Choices] ADD CONSTRAINT FK_Question FOREIGN KEY(QuestionId) REFERENCES Questions(Id);
 
 ALTER TABLE [dbo].[Questions] ADD AnswerCount INT DEFAULT(0);
-*/
 
-select Id, CreatedDate from [dbo].[Questions]
+ALTER TABLE [dbo].[QuestionComments] ADD CreatedDate DATE NOT NULL DEFAULT(GETDATE());
+*/

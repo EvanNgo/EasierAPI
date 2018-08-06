@@ -12,23 +12,15 @@ namespace EasierAPI.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Choice
+    public partial class QuestionComment
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Choice()
-        {
-            this.QuestionAnswers = new HashSet<QuestionAnswer>();
-        }
-    
         public int Id { get; set; }
         public int QuestionId { get; set; }
-        public string Thumbnail { get; set; }
-        public int SelectedCount { get; set; }
-        public Nullable<bool> IsTrue { get; set; }
+        public int UserId { get; set; }
         public string Message { get; set; }
+        public System.DateTime CreatedDate { get; set; }
     
         public virtual Question Question { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; }
+        public virtual User User { get; set; }
     }
 }

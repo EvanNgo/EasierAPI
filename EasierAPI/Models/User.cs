@@ -18,6 +18,9 @@ namespace EasierAPI.Models
         public User()
         {
             this.Questions = new HashSet<Question>();
+            this.QuestionAnswers = new HashSet<QuestionAnswer>();
+            this.QuestionComments = new HashSet<QuestionComment>();
+            this.QuestionLikes = new HashSet<QuestionLike>();
         }
     
         public int Id { get; set; }
@@ -32,5 +35,11 @@ namespace EasierAPI.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Question> Questions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QuestionComment> QuestionComments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QuestionLike> QuestionLikes { get; set; }
     }
 }

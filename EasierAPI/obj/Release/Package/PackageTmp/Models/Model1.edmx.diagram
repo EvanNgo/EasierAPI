@@ -4,12 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3f1fdb0deb0e4c54b81ea99ff393a132" Name="Diagram1" ZoomLevel="95">
-        <EntityTypeShape EntityType="easi5810_easierjlptModel.Question" Width="1.5" PointX="5.625" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="easi5810_easierjlptModel.User" Width="1.5" PointX="3.125" PointY="1.375" IsExpanded="true" />
+      <Diagram DiagramId="3f1fdb0deb0e4c54b81ea99ff393a132" Name="Diagram1" ZoomLevel="90">
+        <EntityTypeShape EntityType="easi5810_easierjlptModel.Question" Width="1.5" PointX="10" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="easi5810_easierjlptModel.User" Width="1.5" PointX="2.625" PointY="4" IsExpanded="true" />
         <AssociationConnector Association="easi5810_easierjlptModel.FK_User" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="easi5810_easierjlptModel.Choice" Width="1.5" PointX="8.25" PointY="1.375" />
+        <EntityTypeShape EntityType="easi5810_easierjlptModel.Choice" Width="1.5" PointX="14.75" PointY="5.5" />
         <AssociationConnector Association="easi5810_easierjlptModel.FK_Question" />
+        <EntityTypeShape EntityType="easi5810_easierjlptModel.QuestionAnswer" Width="1.5" PointX="4.25" PointY="9.5" />
+        <EntityTypeShape EntityType="easi5810_easierjlptModel.QuestionComment" Width="1.5" PointX="9.875" PointY="11.375" />
+        <EntityTypeShape EntityType="easi5810_easierjlptModel.QuestionLike" Width="1.5" PointX="9.875" PointY="1.625" />
+        <AssociationConnector Association="easi5810_easierjlptModel.FK_Answer_ChoiceID" />
+        <AssociationConnector Association="easi5810_easierjlptModel.FK_Answer_QuestionID" />
+        <AssociationConnector Association="easi5810_easierjlptModel.FK_Answer_UserID" />
+        <AssociationConnector Association="easi5810_easierjlptModel.FK_Comment_QuestionID" />
+        <AssociationConnector Association="easi5810_easierjlptModel.FK_Comment_UserID" />
+        <AssociationConnector Association="easi5810_easierjlptModel.FK_Like_QuestionID" />
+        <AssociationConnector Association="easi5810_easierjlptModel.FK_Like_UserID" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

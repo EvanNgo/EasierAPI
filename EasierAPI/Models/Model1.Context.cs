@@ -28,5 +28,8 @@ namespace EasierAPI.Models
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Choice> Choices { get; set; }
+        public virtual DbSet<QuestionAnswer> QuestionAnswers { get; set; }
+        public virtual DbSet<QuestionComment> QuestionComments { get; set; }
+        public virtual DbSet<QuestionLike> QuestionLikes { get; set; }
     }
 }

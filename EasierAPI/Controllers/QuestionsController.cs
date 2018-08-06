@@ -16,9 +16,9 @@ namespace EasierAPI.Controllers
     {
         private easier_database db = new easier_database();
 
-        [Route("api/questions")]
-        [HttpGet]
-        public ResponseMessageModels GetQuestion()
+        [Route("api/questions/")]
+        [HttpPost]
+        public ResponseMessageModels GetQuestion(User mUser)
         {
             ResponseMessageModels result = new ResponseMessageModels();
             var question = from u in db.Questions
@@ -29,17 +29,23 @@ namespace EasierAPI.Controllers
                                title = u.Title,
                                thumbnail = u.Thumbnail,
                                level = u.Level,
-                               answercount = u.AnswerCount,
                                colorid = u.ColorId,
                                content = u.Content,
                                type = u.Type,
-                               choices = from choice in db.Choices where choice.QuestionId == u.Id select new {
-                                   id = choice.Id,
-                                   message = choice.Message,
-                                   istrue = choice.IsTrue,
-                                   thumbnail = choice.Thumbnail,
-                                   selectedcount = choice.SelectedCount
-                               },
+                               commentcount = (from comment in db.QuestionComments where comment.QuestionId == u.Id select comment.UserId).Count(),
+                               likecount = (from like in db.QuestionLikes where like.QuestionId == u.Id select like.UserId).Count(),
+                               answercount = (from answer in db.QuestionAnswers where answer.QuestionId == u.Id select answer.UserId).Count(),
+                               isliked = (from like in db.QuestionLikes where mUser.Id == like.UserId && like.QuestionId==u.Id select like.UserId).Count() > 0,
+                               choices = from choice in db.Choices
+                                         where choice.QuestionId == u.Id
+                                         select new
+                                         {
+                                             id = choice.Id,
+                                             message = choice.Message,
+                                             istrue = choice.IsTrue,
+                                             thumbnail = choice.Thumbnail,
+                                             selectedcount = choice.SelectedCount
+                                         },
                                user = (from user in db.Users
                                       where user.Id == u.UserId
                                       select new { username = user.UserName,

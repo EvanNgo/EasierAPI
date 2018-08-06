@@ -16,6 +16,33 @@
           <Property Name="IsTrue" Type="bit" />
           <Property Name="Message" Type="nvarchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="QuestionAnswers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ChoiceId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QuestionComments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Message" Type="nvarchar" MaxLength="2083" Nullable="false" />
+          <Property Name="CreatedDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QuestionLikes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Questions">
           <Key>
             <PropertyRef Name="Id" />
@@ -30,6 +57,8 @@
           <Property Name="AnswerCount" Type="int" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="1000" />
           <Property Name="Type" Type="int" />
+          <Property Name="LikeCount" Type="int" Nullable="false" />
+          <Property Name="CommentCount" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -45,6 +74,90 @@
           <Property Name="EmailVerity" Type="bit" Nullable="false" />
           <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
         </EntityType>
+        <Association Name="FK_Answer_ChoiceID">
+          <End Role="Choices" Type="Self.Choices" Multiplicity="1" />
+          <End Role="QuestionAnswers" Type="Self.QuestionAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Choices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionAnswers">
+              <PropertyRef Name="ChoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Answer_QuestionID">
+          <End Role="Questions" Type="Self.Questions" Multiplicity="1" />
+          <End Role="QuestionAnswers" Type="Self.QuestionAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionAnswers">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Answer_UserID">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="QuestionAnswers" Type="Self.QuestionAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionAnswers">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_QuestionID">
+          <End Role="Questions" Type="Self.Questions" Multiplicity="1" />
+          <End Role="QuestionComments" Type="Self.QuestionComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionComments">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_UserID">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="QuestionComments" Type="Self.QuestionComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionComments">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Like_QuestionID">
+          <End Role="Questions" Type="Self.Questions" Multiplicity="1" />
+          <End Role="QuestionLikes" Type="Self.QuestionLikes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionLikes">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Like_UserID">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="QuestionLikes" Type="Self.QuestionLikes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionLikes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Question">
           <End Role="Questions" Type="Self.Questions" Multiplicity="1" />
           <End Role="Choices" Type="Self.Choices" Multiplicity="*" />
@@ -71,8 +184,39 @@
         </Association>
         <EntityContainer Name="easi5810_easierjlptModelStoreContainer">
           <EntitySet Name="Choices" EntityType="Self.Choices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionAnswers" EntityType="Self.QuestionAnswers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionComments" EntityType="Self.QuestionComments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionLikes" EntityType="Self.QuestionLikes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Questions" EntityType="Self.Questions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Answer_ChoiceID" Association="Self.FK_Answer_ChoiceID">
+            <End Role="Choices" EntitySet="Choices" />
+            <End Role="QuestionAnswers" EntitySet="QuestionAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Answer_QuestionID" Association="Self.FK_Answer_QuestionID">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="QuestionAnswers" EntitySet="QuestionAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Answer_UserID" Association="Self.FK_Answer_UserID">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="QuestionAnswers" EntitySet="QuestionAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_QuestionID" Association="Self.FK_Comment_QuestionID">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="QuestionComments" EntitySet="QuestionComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_UserID" Association="Self.FK_Comment_UserID">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="QuestionComments" EntitySet="QuestionComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Like_QuestionID" Association="Self.FK_Like_QuestionID">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="QuestionLikes" EntitySet="QuestionLikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Like_UserID" Association="Self.FK_Like_UserID">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="QuestionLikes" EntitySet="QuestionLikes" />
+          </AssociationSet>
           <AssociationSet Name="FK_Question" Association="Self.FK_Question">
             <End Role="Questions" EntitySet="Questions" />
             <End Role="Choices" EntitySet="Choices" />
@@ -102,6 +246,11 @@
           <NavigationProperty Name="Choices" Relationship="easi5810_easierjlptModel.FK_Question" FromRole="Question" ToRole="Choice" />
           <Property Name="Content" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Type" Type="Int32" />
+          <Property Name="LikeCount" Type="Int32" Nullable="false" />
+          <Property Name="CommentCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="QuestionAnswers" Relationship="easi5810_easierjlptModel.FK_Answer_QuestionID" FromRole="Question" ToRole="QuestionAnswer" />
+          <NavigationProperty Name="QuestionComments" Relationship="easi5810_easierjlptModel.FK_Comment_QuestionID" FromRole="Question" ToRole="QuestionComment" />
+          <NavigationProperty Name="QuestionLikes" Relationship="easi5810_easierjlptModel.FK_Like_QuestionID" FromRole="Question" ToRole="QuestionLike" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -117,6 +266,9 @@
           <Property Name="EmailVerity" Type="Boolean" Nullable="false" />
           <Property Name="Thumbnail" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Questions" Relationship="Self.FK_User" FromRole="Users" ToRole="Questions" />
+          <NavigationProperty Name="QuestionAnswers" Relationship="easi5810_easierjlptModel.FK_Answer_UserID" FromRole="User" ToRole="QuestionAnswer" />
+          <NavigationProperty Name="QuestionComments" Relationship="easi5810_easierjlptModel.FK_Comment_UserID" FromRole="User" ToRole="QuestionComment" />
+          <NavigationProperty Name="QuestionLikes" Relationship="easi5810_easierjlptModel.FK_Like_UserID" FromRole="User" ToRole="QuestionLike" />
         </EntityType>
         <Association Name="FK_User">
           <End Role="Users" Type="Self.User" Multiplicity="1" />
@@ -142,6 +294,37 @@
             <End Role="Question" EntitySet="Questions" />
             <End Role="Choice" EntitySet="Choices" />
           </AssociationSet>
+          <EntitySet Name="QuestionAnswers" EntityType="easi5810_easierjlptModel.QuestionAnswer" />
+          <EntitySet Name="QuestionComments" EntityType="easi5810_easierjlptModel.QuestionComment" />
+          <EntitySet Name="QuestionLikes" EntityType="easi5810_easierjlptModel.QuestionLike" />
+          <AssociationSet Name="FK_Answer_ChoiceID" Association="easi5810_easierjlptModel.FK_Answer_ChoiceID">
+            <End Role="Choice" EntitySet="Choices" />
+            <End Role="QuestionAnswer" EntitySet="QuestionAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Answer_QuestionID" Association="easi5810_easierjlptModel.FK_Answer_QuestionID">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="QuestionAnswer" EntitySet="QuestionAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Answer_UserID" Association="easi5810_easierjlptModel.FK_Answer_UserID">
+            <End Role="User" EntitySet="Users" />
+            <End Role="QuestionAnswer" EntitySet="QuestionAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_QuestionID" Association="easi5810_easierjlptModel.FK_Comment_QuestionID">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="QuestionComment" EntitySet="QuestionComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_UserID" Association="easi5810_easierjlptModel.FK_Comment_UserID">
+            <End Role="User" EntitySet="Users" />
+            <End Role="QuestionComment" EntitySet="QuestionComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Like_QuestionID" Association="easi5810_easierjlptModel.FK_Like_QuestionID">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="QuestionLike" EntitySet="QuestionLikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Like_UserID" Association="easi5810_easierjlptModel.FK_Like_UserID">
+            <End Role="User" EntitySet="Users" />
+            <End Role="QuestionLike" EntitySet="QuestionLikes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Choice">
           <Key>
@@ -154,6 +337,7 @@
           <Property Name="IsTrue" Type="Boolean" />
           <Property Name="Message" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Question" Relationship="easi5810_easierjlptModel.FK_Question" FromRole="Choice" ToRole="Question" />
+          <NavigationProperty Name="QuestionAnswers" Relationship="easi5810_easierjlptModel.FK_Answer_ChoiceID" FromRole="Choice" ToRole="QuestionAnswer" />
         </EntityType>
         <Association Name="FK_Question">
           <End Type="easi5810_easierjlptModel.Question" Role="Question" Multiplicity="1" />
@@ -167,6 +351,124 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="QuestionAnswer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ChoiceId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Choice" Relationship="easi5810_easierjlptModel.FK_Answer_ChoiceID" FromRole="QuestionAnswer" ToRole="Choice" />
+          <NavigationProperty Name="Question" Relationship="easi5810_easierjlptModel.FK_Answer_QuestionID" FromRole="QuestionAnswer" ToRole="Question" />
+          <NavigationProperty Name="User" Relationship="easi5810_easierjlptModel.FK_Answer_UserID" FromRole="QuestionAnswer" ToRole="User" />
+        </EntityType>
+        <EntityType Name="QuestionComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="2083" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Question" Relationship="easi5810_easierjlptModel.FK_Comment_QuestionID" FromRole="QuestionComment" ToRole="Question" />
+          <NavigationProperty Name="User" Relationship="easi5810_easierjlptModel.FK_Comment_UserID" FromRole="QuestionComment" ToRole="User" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="QuestionLike">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Question" Relationship="easi5810_easierjlptModel.FK_Like_QuestionID" FromRole="QuestionLike" ToRole="Question" />
+          <NavigationProperty Name="User" Relationship="easi5810_easierjlptModel.FK_Like_UserID" FromRole="QuestionLike" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Answer_ChoiceID">
+          <End Type="easi5810_easierjlptModel.Choice" Role="Choice" Multiplicity="1" />
+          <End Type="easi5810_easierjlptModel.QuestionAnswer" Role="QuestionAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Choice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionAnswer">
+              <PropertyRef Name="ChoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Answer_QuestionID">
+          <End Type="easi5810_easierjlptModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="easi5810_easierjlptModel.QuestionAnswer" Role="QuestionAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionAnswer">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Answer_UserID">
+          <End Type="easi5810_easierjlptModel.User" Role="User" Multiplicity="1" />
+          <End Type="easi5810_easierjlptModel.QuestionAnswer" Role="QuestionAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionAnswer">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_QuestionID">
+          <End Type="easi5810_easierjlptModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="easi5810_easierjlptModel.QuestionComment" Role="QuestionComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionComment">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_UserID">
+          <End Type="easi5810_easierjlptModel.User" Role="User" Multiplicity="1" />
+          <End Type="easi5810_easierjlptModel.QuestionComment" Role="QuestionComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionComment">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Like_QuestionID">
+          <End Type="easi5810_easierjlptModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="easi5810_easierjlptModel.QuestionLike" Role="QuestionLike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionLike">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Like_UserID">
+          <End Type="easi5810_easierjlptModel.User" Role="User" Multiplicity="1" />
+          <End Type="easi5810_easierjlptModel.QuestionLike" Role="QuestionLike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionLike">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -176,6 +478,8 @@
           <EntitySetMapping Name="Questions">
             <EntityTypeMapping TypeName="easi5810_easierjlptModel.Question">
               <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="CommentCount" ColumnName="CommentCount" />
+                <ScalarProperty Name="LikeCount" ColumnName="LikeCount" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="AnswerCount" ColumnName="AnswerCount" />
@@ -211,6 +515,36 @@
                 <ScalarProperty Name="IsTrue" ColumnName="IsTrue" />
                 <ScalarProperty Name="SelectedCount" ColumnName="SelectedCount" />
                 <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionAnswers">
+            <EntityTypeMapping TypeName="easi5810_easierjlptModel.QuestionAnswer">
+              <MappingFragment StoreEntitySet="QuestionAnswers">
+                <ScalarProperty Name="ChoiceId" ColumnName="ChoiceId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionComments">
+            <EntityTypeMapping TypeName="easi5810_easierjlptModel.QuestionComment">
+              <MappingFragment StoreEntitySet="QuestionComments">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionLikes">
+            <EntityTypeMapping TypeName="easi5810_easierjlptModel.QuestionLike">
+              <MappingFragment StoreEntitySet="QuestionLikes">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

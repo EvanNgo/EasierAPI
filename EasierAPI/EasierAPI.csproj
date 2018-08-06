@@ -196,6 +196,9 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\ChoicesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\QuestionAnswersController.cs" />
+    <Compile Include="Controllers\QuestionCommentsController.cs" />
+    <Compile Include="Controllers\QuestionLikesController.cs" />
     <Compile Include="Controllers\QuestionsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -221,6 +224,15 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Question.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QuestionAnswer.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QuestionComment.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QuestionLike.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ResponseMessageModels.cs" />
