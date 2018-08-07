@@ -18,32 +18,32 @@ namespace EasierAPI.Controllers
     {
         private easier_database db = new easier_database();
 
-        /*
-        // GET: api/users
-        [Route("api/users")]
+        // GET: api/user
+        [Route("api/user")]
         [HttpGet]
-        public ResponseMessageModels GetUsers()
+        public ResponseMessageModels GetUser(User mUser)
         {
             ResponseMessageModels result = new ResponseMessageModels();
-            var user = from u in db.Users
+            var user = (from u in db.Users
+                       where u.Id == mUser.Id && u.Email == mUser.Email
                        select new
                        {
                            id = u.Id,
                            email = u.Email,
                            username = u.UserName,
                            thumbnail = u.Thumbnail
-                       };
+                       }).FirstOrDefault();
             if (user == null) {
                 result.status = 0;
-                result.message = "Is Empty";
+                result.message = "Login Session Time Out";
                 result.data = null;
             }
             result.status = 1;
-            result.message = "Get List User Successfully";
+            result.message = "Get User Successfully";
             result.data = user;
             return result;
         }
-        */
+       
 
         //Login
         [Route("api/user/login")]
@@ -57,17 +57,16 @@ namespace EasierAPI.Controllers
                 result.data = null;
                 return result;
             }
-            String hash = getMd5Hash(mUser.HashPass);
             String mEmail = mUser.Email + ".com";
-            var user = from u in db.Users
-                        where u.Email == mEmail && u.HashPass == hash
-                        select new {
+            var user = (from u in db.Users
+                       where u.Email == mEmail && u.HashPass == mUser.HashPass
+                       select new {
                             id = u.Id,
                             email = u.Email,
                             username = u.UserName,
                             thumbnail = u.Thumbnail
-                        };
-            if (user == null || user.Count() <= 0)
+                        }).FirstOrDefault();
+            if (user == null)
             {
                 result.status = 0;
                 result.message = "Invailid Email or Passsword";
@@ -80,14 +79,37 @@ namespace EasierAPI.Controllers
             return result;
         }
 
+        //Update User Profile
+        [Route("api/user/edit")]
+        [HttpPost]
+        public ResponseMessageModels EditProfile(User mUser)
+        {
+            ResponseMessageModels result = new ResponseMessageModels();
+            User user = db.Users.Find(mUser.Id);
+            if ( user == null )
+            {
+                result.status = 0;
+                result.message = "Error: User ID Invalid";
+                result.data = null;
+                return result;
+            }
+            user.UserName = mUser.UserName;
+            user.Thumbnail = mUser.Thumbnail;
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+            var id = mUser.Id;
+            result.status = id;
+            result.message = "Updated Successfully";
+            result.data = user;
+            return result;
+        }
 
-    //Register
+        //Register
         [Route("api/user/register")]
         [HttpPost]
         public ResponseMessageModels Register(User mUser)
         {
             ResponseMessageModels result = new ResponseMessageModels();
-            mUser.HashPass = getMd5Hash(mUser.HashPass);
             mUser.Email = mUser.Email + ".com";
             if (UserExists(mUser.Email)) {
                 result.status = 0;
@@ -139,7 +161,7 @@ namespace EasierAPI.Controllers
         {
             return db.Users.Count(e => e.Email == email) > 0;
         }
-
+        /*
         private string getMd5Hash(string input)
         { // Create a new instance of the MD5CryptoServiceProvider object.
             MD5 md5Hasher = MD5.Create(); // Convert the input string to a byte array and compute the hash.
@@ -152,6 +174,6 @@ namespace EasierAPI.Controllers
             }
             return sBuilder.ToString();
         }
-
+        */
     }
 }

@@ -44,34 +44,6 @@ namespace EasierAPI.Controllers
             return result;
         }
 
-        [Route("api/getlistcomment")]
-        [HttpGet]
-        public ResponseMessageModels GetListComment()
-        {
-            ResponseMessageModels result = new ResponseMessageModels();
-            var comments = from u in db.QuestionComments
-                           select new
-                           {
-                               id = u.Id,
-                               message = u.Message,
-                               questionid = u.QuestionId,
-                               createddate = u.CreatedDate,
-                               user = (from user in db.Users
-                                       where user.Id == u.UserId
-                                       select new
-                                       {
-                                           id = u.Id,
-                                           email = user.Email,
-                                           username = user.UserName,
-                                           thumbnail = user.Thumbnail
-                                       }).FirstOrDefault()
-                           };
-            result.status = 1;
-            result.message = "Get Comment List Successfully";
-            result.data = comments;
-            return result;
-        }
-
         [Route("api/question/comments/")]
         [HttpPost]
         public ResponseMessageModels GetQuestionComment(Question mQuestion)
