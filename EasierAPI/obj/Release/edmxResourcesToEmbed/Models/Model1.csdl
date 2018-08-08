@@ -21,6 +21,7 @@
     <NavigationProperty Name="QuestionAnswers" Relationship="easi5810_easierjlptModel.FK_Answer_QuestionID" FromRole="Question" ToRole="QuestionAnswer" />
     <NavigationProperty Name="QuestionComments" Relationship="easi5810_easierjlptModel.FK_Comment_QuestionID" FromRole="Question" ToRole="QuestionComment" />
     <NavigationProperty Name="QuestionLikes" Relationship="easi5810_easierjlptModel.FK_Like_QuestionID" FromRole="Question" ToRole="QuestionLike" />
+    <Property Name="isHaveAnswer" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="User">
     <Key>

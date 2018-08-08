@@ -40,7 +40,7 @@ namespace EasierAPI.Controllers
             db.SaveChanges();
             result.status = 1;
             result.message = "Added Comment Successfully";
-            result.data = null;
+            result.data = (from comment in db.QuestionComments where comment.QuestionId == mComment.QuestionId select mComment.Id).Count();
             return result;
         }
 

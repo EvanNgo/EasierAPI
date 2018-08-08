@@ -21,7 +21,7 @@ namespace EasierAPI.Controllers
         public ResponseMessageModels GetQuestion(User mUser)
         {
             ResponseMessageModels result = new ResponseMessageModels();
-            var question = from u in db.Questions
+            var question = (from u in db.Questions
                            orderby u.Id descending
                            select new
                            {
@@ -32,6 +32,9 @@ namespace EasierAPI.Controllers
                                colorid = u.ColorId,
                                content = u.Content,
                                type = u.Type,
+                               selectedchoice = (from answer in db.QuestionAnswers where answer.QuestionId == u.Id && answer.UserId == u.UserId select answer.ChoiceId).FirstOrDefault(),
+                               isanswered = (from answer in db.QuestionAnswers where answer.QuestionId == u.Id && answer.UserId == u.UserId select answer.ChoiceId).Count() > 0,
+                               ishaveanswer = u.isHaveAnswer,
                                commentcount = (from comment in db.QuestionComments where comment.QuestionId == u.Id select comment.UserId).Count(),
                                likecount = (from like in db.QuestionLikes where like.QuestionId == u.Id select like.UserId).Count(),
                                answercount = (from answer in db.QuestionAnswers where answer.QuestionId == u.Id select answer.UserId).Count(),
@@ -51,7 +54,7 @@ namespace EasierAPI.Controllers
                                       select new { username = user.UserName,
                                                    id = user.Id,
                                                    thumbnail = user.Thumbnail}).FirstOrDefault()
-                           };
+                           }).Take(10);
             if (question == null || question.Count() <= 0)
             {
                 result.status = 0;
@@ -84,6 +87,7 @@ namespace EasierAPI.Controllers
                                 thumbnail = u.Thumbnail,
                                 level = u.Level,
                                 answercount = u.AnswerCount,
+                                ishaveanswer = u.isHaveAnswer,
                                 colorid = u.ColorId,
                                 content = u.Content,
                                 type = u.Type,
@@ -144,6 +148,19 @@ namespace EasierAPI.Controllers
             {
                 db.Choices.Remove(choice);
             }
+
+            var comments = db.QuestionComments.Where(b => b.QuestionId == question.Id).AsEnumerable();
+            foreach (var comment in comments)
+            {
+                db.QuestionComments.Remove(comment);
+            }
+
+            var likes = db.QuestionLikes.Where(b => b.QuestionId == question.Id).AsEnumerable();
+            foreach (var like in likes)
+            {
+                db.QuestionLikes.Remove(like);
+            }
+
             db.SaveChanges();
             db.Questions.Remove(question);
             db.SaveChanges();

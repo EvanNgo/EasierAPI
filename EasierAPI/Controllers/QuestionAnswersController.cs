@@ -16,89 +16,17 @@ namespace EasierAPI.Controllers
     {
         private easier_database db = new easier_database();
 
-        // GET: api/QuestionAnswers
-        public IQueryable<QuestionAnswer> GetQuestionAnswers()
+        [Route("api/question/answer")]
+        [HttpPost]
+        public ResponseMessageModels AnswerQuestion(QuestionAnswer mQuestionAnswer)
         {
-            return db.QuestionAnswers;
-        }
-
-        // GET: api/QuestionAnswers/5
-        [ResponseType(typeof(QuestionAnswer))]
-        public IHttpActionResult GetQuestionAnswer(int id)
-        {
-            QuestionAnswer questionAnswer = db.QuestionAnswers.Find(id);
-            if (questionAnswer == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(questionAnswer);
-        }
-
-        // PUT: api/QuestionAnswers/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutQuestionAnswer(int id, QuestionAnswer questionAnswer)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != questionAnswer.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(questionAnswer).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!QuestionAnswerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // POST: api/QuestionAnswers
-        [ResponseType(typeof(QuestionAnswer))]
-        public IHttpActionResult PostQuestionAnswer(QuestionAnswer questionAnswer)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.QuestionAnswers.Add(questionAnswer);
+            ResponseMessageModels result = new ResponseMessageModels();
+            db.QuestionAnswers.Add(mQuestionAnswer);
             db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = questionAnswer.Id }, questionAnswer);
-        }
-
-        // DELETE: api/QuestionAnswers/5
-        [ResponseType(typeof(QuestionAnswer))]
-        public IHttpActionResult DeleteQuestionAnswer(int id)
-        {
-            QuestionAnswer questionAnswer = db.QuestionAnswers.Find(id);
-            if (questionAnswer == null)
-            {
-                return NotFound();
-            }
-
-            db.QuestionAnswers.Remove(questionAnswer);
-            db.SaveChanges();
-
-            return Ok(questionAnswer);
+            result.status = 1;
+            result.message = "Answered";
+            result.data = null;
+            return result;
         }
 
         protected override void Dispose(bool disposing)

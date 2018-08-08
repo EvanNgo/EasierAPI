@@ -59,6 +59,7 @@
           <Property Name="Type" Type="int" />
           <Property Name="LikeCount" Type="int" Nullable="false" />
           <Property Name="CommentCount" Type="int" Nullable="false" />
+          <Property Name="isHaveAnswer" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -251,6 +252,7 @@
           <NavigationProperty Name="QuestionAnswers" Relationship="easi5810_easierjlptModel.FK_Answer_QuestionID" FromRole="Question" ToRole="QuestionAnswer" />
           <NavigationProperty Name="QuestionComments" Relationship="easi5810_easierjlptModel.FK_Comment_QuestionID" FromRole="Question" ToRole="QuestionComment" />
           <NavigationProperty Name="QuestionLikes" Relationship="easi5810_easierjlptModel.FK_Like_QuestionID" FromRole="Question" ToRole="QuestionLike" />
+          <Property Name="isHaveAnswer" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -478,6 +480,7 @@
           <EntitySetMapping Name="Questions">
             <EntityTypeMapping TypeName="easi5810_easierjlptModel.Question">
               <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="isHaveAnswer" ColumnName="isHaveAnswer" />
                 <ScalarProperty Name="CommentCount" ColumnName="CommentCount" />
                 <ScalarProperty Name="LikeCount" ColumnName="LikeCount" />
                 <ScalarProperty Name="Type" ColumnName="Type" />

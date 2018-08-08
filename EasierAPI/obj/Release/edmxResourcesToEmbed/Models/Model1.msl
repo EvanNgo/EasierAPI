@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Questions">
       <EntityTypeMapping TypeName="easi5810_easierjlptModel.Question">
         <MappingFragment StoreEntitySet="Questions">
+          <ScalarProperty Name="isHaveAnswer" ColumnName="isHaveAnswer" />
           <ScalarProperty Name="CommentCount" ColumnName="CommentCount" />
           <ScalarProperty Name="LikeCount" ColumnName="LikeCount" />
           <ScalarProperty Name="Type" ColumnName="Type" />

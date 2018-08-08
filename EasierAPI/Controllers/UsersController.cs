@@ -95,12 +95,20 @@ namespace EasierAPI.Controllers
             }
             user.UserName = mUser.UserName;
             user.Thumbnail = mUser.Thumbnail;
-            db.Entry(user).State = EntityState.Modified;
+//            db.Entry(user).State = EntityState.Modified;
             db.SaveChanges();
-            var id = mUser.Id;
-            result.status = id;
-            result.message = "Updated Successfully";
-            result.data = user;
+            var putBackUser = (from u in db.Users
+                        where u.Id == user.Id && u.Email == user.Email
+                        select new
+                        {
+                            id = u.Id,
+                            email = u.Email,
+                            username = u.UserName,
+                            thumbnail = u.Thumbnail
+                        }).FirstOrDefault();
+            result.status = 1;
+            result.message = "Get User Successfully";
+            result.data = putBackUser;
             return result;
         }
 
@@ -119,8 +127,7 @@ namespace EasierAPI.Controllers
             }
             db.Users.Add(mUser);
             db.SaveChanges();
-            var id = mUser.Id;
-            result.status = id;
+            result.status = mUser.Id;
             result.message = "Regsiter Successfully";
             result.data = null;
             return result;

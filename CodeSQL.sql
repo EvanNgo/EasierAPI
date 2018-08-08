@@ -74,4 +74,6 @@ ALTER TABLE [dbo].[Choices] ADD CONSTRAINT FK_Question FOREIGN KEY(QuestionId) R
 ALTER TABLE [dbo].[Questions] ADD AnswerCount INT DEFAULT(0);
 
 ALTER TABLE [dbo].[QuestionComments] ADD CreatedDate DATE NOT NULL DEFAULT(GETDATE());
+
+ALTER TABLE [dbo].[Questions] ADD isHaveAnswer BIT NOT NULL DEFAULT(0);
 */

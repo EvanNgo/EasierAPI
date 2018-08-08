@@ -35,6 +35,7 @@ namespace EasierAPI.Models
         public Nullable<int> Type { get; set; }
         public int LikeCount { get; set; }
         public int CommentCount { get; set; }
+        public bool isHaveAnswer { get; set; }
     
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
