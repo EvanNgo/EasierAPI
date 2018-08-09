@@ -21,40 +21,121 @@ namespace EasierAPI.Controllers
         public ResponseMessageModels GetQuestion(User mUser)
         {
             ResponseMessageModels result = new ResponseMessageModels();
-            var question = (from u in db.Questions
-                           orderby u.Id descending
+            var mAnswer = from answer
+                                      in db.QuestionAnswers
+                          where answer.UserId == mUser.Id
+                          select new
+                          {
+                              AnswerQuestionId = answer.QuestionId,
+                              AnswerUserId = answer.UserId
+                          };
+            var mQuestions = from mQuestion in db.Questions
+                           join a in mAnswer on mQuestion.Id equals a.AnswerQuestionId into answerTemp
+                           from a in answerTemp.DefaultIfEmpty()
                            select new
                            {
-                               id = u.Id,
-                               title = u.Title,
-                               thumbnail = u.Thumbnail,
-                               level = u.Level,
-                               colorid = u.ColorId,
-                               content = u.Content,
-                               type = u.Type,
-                               selectedchoice = (from answer in db.QuestionAnswers where answer.QuestionId == u.Id && answer.UserId == u.UserId select answer.ChoiceId).FirstOrDefault(),
-                               isanswered = (from answer in db.QuestionAnswers where answer.QuestionId == u.Id && answer.UserId == u.UserId select answer.ChoiceId).Count() > 0,
-                               ishaveanswer = u.isHaveAnswer,
-                               commentcount = (from comment in db.QuestionComments where comment.QuestionId == u.Id select comment.UserId).Count(),
-                               likecount = (from like in db.QuestionLikes where like.QuestionId == u.Id select like.UserId).Count(),
-                               answercount = (from answer in db.QuestionAnswers where answer.QuestionId == u.Id select answer.UserId).Count(),
-                               isliked = (from like in db.QuestionLikes where mUser.Id == like.UserId && like.QuestionId==u.Id select like.UserId).Count() > 0,
-                               choices = from choice in db.Choices
-                                         where choice.QuestionId == u.Id
-                                         select new
-                                         {
-                                             id = choice.Id,
-                                             message = choice.Message,
-                                             istrue = choice.IsTrue,
-                                             thumbnail = choice.Thumbnail,
-                                             selectedcount = choice.SelectedCount
-                                         },
-                               user = (from user in db.Users
-                                      where user.Id == u.UserId
-                                      select new { username = user.UserName,
-                                                   id = user.Id,
-                                                   thumbnail = user.Thumbnail}).FirstOrDefault()
-                           }).Take(10);
+                               Id = mQuestion.Id,
+                               Title = mQuestion.Title,
+                               Thumbnail = mQuestion.Thumbnail,
+                               Level = mQuestion.Level,
+                               ColorId = mQuestion.ColorId,
+                               Content = mQuestion.Content,
+                               Type = mQuestion.Type,
+                               isHaveAnswer = mQuestion.isHaveAnswer,
+                               UserId = mQuestion.UserId,
+                               AnswerUserID = a == null ? -1 : a.AnswerUserId
+                           };
+            var question = (from u in mQuestions
+                            where u.AnswerUserID == -1
+                            orderby u.Id descending
+                            select new
+                            {
+                                id = u.Id,
+                                title = u.Title,
+                                thumbnail = u.Thumbnail,
+                                level = u.Level,
+                                colorid = u.ColorId,
+                                content = u.Content,
+                                type = u.Type,
+                                is_have_answer = u.isHaveAnswer,
+                                comment_count = (from comment in db.QuestionComments where comment.QuestionId == u.Id select comment.UserId).Count(),
+                                like_count = (from like in db.QuestionLikes where like.QuestionId == u.Id select like.UserId).Count(),
+                                answer_count = (from answer in db.QuestionAnswers where answer.QuestionId == u.Id select answer.UserId).Count(),
+                                is_liked = (from like in db.QuestionLikes where mUser.Id == like.UserId && like.QuestionId==u.Id select like.UserId).Count() > 0,
+                                choices = from choice in db.Choices
+                                            where choice.QuestionId == u.Id
+                                            select new
+                                            {
+                                                id = choice.Id,
+                                                message = choice.Message,
+                                                istrue = choice.IsTrue,
+                                                thumbnail = choice.Thumbnail,
+                                                selectedcount = choice.SelectedCount
+                                            },
+                                user = (from user in db.Users
+                                        where user.Id == u.UserId
+                                        select new { username = user.UserName,
+                                                    id = user.Id,
+                                                    thumbnail = user.Thumbnail}).FirstOrDefault()
+                            }).Take(10);
+            if (question == null || question.Count() <= 0)
+            {
+                result.status = 0;
+                result.message = "Is Empty";
+                result.data = null;
+            }
+            result.status = 1;
+            result.message = "Get List User Successfully";
+            result.data = question;
+            return result;
+        }
+
+
+
+        [Route("api/answered/questions/")]
+        [HttpPost]
+        public ResponseMessageModels GetAnsweredQuestion(User mUser)
+        {
+            ResponseMessageModels result = new ResponseMessageModels();
+            var question = (from u in db.Questions
+                            join a in (from temp in db.QuestionAnswers where temp.UserId == mUser.Id select temp) on u.Id equals a.QuestionId
+                            where a.UserId == mUser.Id
+                            orderby u.Id descending
+                            select new
+                            {
+                                id = u.Id,
+                                title = u.Title,
+                                thumbnail = u.Thumbnail,
+                                level = u.Level,
+                                colorid = u.ColorId,
+                                content = u.Content,
+                                type = u.Type,
+                                selected_choice_id = a.ChoiceId,
+                                is_answered = true,
+                                is_have_answer = u.isHaveAnswer,
+                                comment_count = (from comment in db.QuestionComments where comment.QuestionId == u.Id select comment.UserId).Count(),
+                                like_count = (from like in db.QuestionLikes where like.QuestionId == u.Id select like.UserId).Count(),
+                                answer_count = (from answer in db.QuestionAnswers where answer.QuestionId == u.Id select answer.UserId).Count(),
+                                is_liked = (from like in db.QuestionLikes where mUser.Id == like.UserId && like.QuestionId == u.Id select like.UserId).Count() > 0,
+                                choices = from choice in db.Choices
+                                          where choice.QuestionId == u.Id
+                                          select new
+                                          {
+                                              id = choice.Id,
+                                              message = choice.Message,
+                                              istrue = choice.IsTrue,
+                                              thumbnail = choice.Thumbnail,
+                                              selectedcount = choice.SelectedCount
+                                          },
+                                user = (from user in db.Users
+                                        where user.Id == u.UserId
+                                        select new
+                                        {
+                                            username = user.UserName,
+                                            id = user.Id,
+                                            thumbnail = user.Thumbnail
+                                        }).FirstOrDefault()
+                            }).Take(10);
             if (question == null || question.Count() <= 0)
             {
                 result.status = 0;
