@@ -37,10 +37,12 @@ namespace EasierAPI.Controllers
             ResponseMessageModels result = new ResponseMessageModels();
            
             db.QuestionComments.Add(mComment);
+            Question question = db.Questions.Find(mComment.QuestionId);
+            question.CommentCount++;
             db.SaveChanges();
             result.status = 1;
             result.message = "Added Comment Successfully";
-            result.data = (from comment in db.QuestionComments where comment.QuestionId == mComment.QuestionId select mComment.Id).Count();
+            result.data = question.CommentCount;
             return result;
         }
 

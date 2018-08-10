@@ -43,6 +43,9 @@ namespace EasierAPI.Controllers
                                Type = mQuestion.Type,
                                isHaveAnswer = mQuestion.isHaveAnswer,
                                UserId = mQuestion.UserId,
+                               AnswerCount = mQuestion.AnswerCount,
+                               CommentCount = mQuestion.CommentCount,
+                               LikeCount = mQuestion.LikeCount,
                                AnswerUserID = a == null ? -1 : a.AnswerUserId
                            };
             var question = (from u in mQuestions
@@ -58,9 +61,9 @@ namespace EasierAPI.Controllers
                                 content = u.Content,
                                 type = u.Type,
                                 is_have_answer = u.isHaveAnswer,
-                                comment_count = (from comment in db.QuestionComments where comment.QuestionId == u.Id select comment.UserId).Count(),
-                                like_count = (from like in db.QuestionLikes where like.QuestionId == u.Id select like.UserId).Count(),
-                                answer_count = (from answer in db.QuestionAnswers where answer.QuestionId == u.Id select answer.UserId).Count(),
+                                comment_count = u.CommentCount,
+                                like_count = u.LikeCount,
+                                answer_count = u.AnswerCount,
                                 is_liked = (from like in db.QuestionLikes where mUser.Id == like.UserId && like.QuestionId==u.Id select like.UserId).Count() > 0,
                                 choices = from choice in db.Choices
                                             where choice.QuestionId == u.Id
@@ -113,9 +116,9 @@ namespace EasierAPI.Controllers
                                 selected_choice_id = a.ChoiceId,
                                 is_answered = true,
                                 is_have_answer = u.isHaveAnswer,
-                                comment_count = (from comment in db.QuestionComments where comment.QuestionId == u.Id select comment.UserId).Count(),
-                                like_count = (from like in db.QuestionLikes where like.QuestionId == u.Id select like.UserId).Count(),
-                                answer_count = (from answer in db.QuestionAnswers where answer.QuestionId == u.Id select answer.UserId).Count(),
+                                comment_count = u.CommentCount,
+                                like_count = u.LikeCount,
+                                answer_count = u.AnswerCount,
                                 is_liked = (from like in db.QuestionLikes where mUser.Id == like.UserId && like.QuestionId == u.Id select like.UserId).Count() > 0,
                                 choices = from choice in db.Choices
                                           where choice.QuestionId == u.Id

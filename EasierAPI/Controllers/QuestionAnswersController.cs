@@ -22,10 +22,14 @@ namespace EasierAPI.Controllers
         {
             ResponseMessageModels result = new ResponseMessageModels();
             db.QuestionAnswers.Add(mQuestionAnswer);
+            Choice choice = db.Choices.Find(mQuestionAnswer.ChoiceId);
+            Question question = db.Questions.Find(mQuestionAnswer.QuestionId);
+            choice.SelectedCount++;
+            question.AnswerCount++;
             db.SaveChanges();
             result.status = 1;
             result.message = "Answered";
-            result.data = null;
+            result.data = question.AnswerCount;
             return result;
         }
 

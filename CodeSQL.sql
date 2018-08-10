@@ -99,8 +99,3 @@ from (select u.*, isnull(a.UserId,-1) as AnswerUserID
 		full join (select * from [dbo].[QuestionAnswers] where UserId = 1) as a on u.id = a.QuestionId )
 as temp where temp.AnswerUserID = -1
 */
-
-
-select u.*, isnull(a.UserId,-1) as AnswerUserID 
-		from [dbo].[Questions] as u
-		right join (select * from [dbo].[QuestionAnswers] where UserId = 1) as a on u.id = a.QuestionId 
