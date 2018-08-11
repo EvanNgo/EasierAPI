@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
 using System.Web.Http;
-using System.Web.Http.Description;
 using EasierAPI.Models;
 
 namespace EasierAPI.Controllers
@@ -64,8 +56,9 @@ namespace EasierAPI.Controllers
                             id = u.Id,
                             email = u.Email,
                             username = u.UserName,
-                            thumbnail = u.Thumbnail
-                        }).FirstOrDefault();
+                            thumbnail = u.Thumbnail,
+                            type = u.Type
+                       }).FirstOrDefault();
             if (user == null)
             {
                 result.status = 0;
@@ -78,6 +71,70 @@ namespace EasierAPI.Controllers
             result.data = user;
             return result;
         }
+
+        [Route("api/user/loginfb")]
+        [HttpPost]
+        public ResponseMessageModels LoginWithFacebook(User mUser)
+        {
+            ResponseMessageModels result = new ResponseMessageModels();
+            if (mUser.FbId == null)
+            {
+                result.status = 0;
+                result.message = "Email or Password is empty";
+                result.data = null;
+                return result;
+            }
+            mUser.Email = mUser.Email + ".com";
+            int id = FacebookIdExists(mUser.FbId);
+            if (id == -1) {
+                db.Users.Add(mUser);
+                db.SaveChanges();
+                var putBack = (from u in db.Users
+                                   where u.Id == mUser.Id
+                                   select new
+                                   {
+                                       id = u.Id,
+                                       email = u.Email,
+                                       username = u.UserName,
+                                       thumbnail = u.Thumbnail,
+                                       fbid = u.FbId,
+                                       type = u.Type
+                                   }).FirstOrDefault();
+                result.status = 1;
+                result.message = "Register With Facebook Success";
+                result.data = putBack;
+                return result;
+            }
+            mUser.Id = id;
+            User user = db.Users.SingleOrDefault(u => u.Id == mUser.Id);
+            if (user == null)
+            {
+                result.status = 0;
+                result.message = "Error: User ID Invalid";
+                result.data = null;
+                return result;
+            }
+            user.Email = mUser.Email;
+            user.UserName = mUser.UserName;
+            user.Thumbnail = mUser.Thumbnail;
+            db.SaveChanges();
+            var putBackUser = (from u in db.Users
+                               where u.Id == mUser.Id
+                               select new
+                               {
+                                   id = u.Id,
+                                   email = u.Email,
+                                   username = u.UserName,
+                                   thumbnail = u.Thumbnail,
+                                   fbid = u.FbId,
+                                   type = u.Type
+                               }).FirstOrDefault();
+            result.status = 1;
+            result.message = "Login With Facebook Success";
+            result.data = putBackUser;
+            return result;
+        }
+
 
         //Update User Profile
         [Route("api/user/edit")]
@@ -95,7 +152,6 @@ namespace EasierAPI.Controllers
             }
             user.UserName = mUser.UserName;
             user.Thumbnail = mUser.Thumbnail;
-//            db.Entry(user).State = EntityState.Modified;
             db.SaveChanges();
             var putBackUser = (from u in db.Users
                         where u.Id == user.Id && u.Email == user.Email
@@ -104,7 +160,8 @@ namespace EasierAPI.Controllers
                             id = u.Id,
                             email = u.Email,
                             username = u.UserName,
-                            thumbnail = u.Thumbnail
+                            thumbnail = u.Thumbnail,
+                            type = u.Type
                         }).FirstOrDefault();
             result.status = 1;
             result.message = "Get User Successfully";
@@ -168,19 +225,14 @@ namespace EasierAPI.Controllers
         {
             return db.Users.Count(e => e.Email == email) > 0;
         }
-        /*
-        private string getMd5Hash(string input)
-        { // Create a new instance of the MD5CryptoServiceProvider object.
-            MD5 md5Hasher = MD5.Create(); // Convert the input string to a byte array and compute the hash.
-            byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(input));
-            // Create a new Stringbuilder to collect the bytes // and create a string.
-            StringBuilder sBuilder = new StringBuilder(); // Loop through each byte of the hashed data // and format each one as a hexadecimal string.
-            for (int i = 0; i < data.Length; i++)
-            {
-                sBuilder.Append(data[i].ToString("x2"));
+
+        private int FacebookIdExists(string fbId)
+        {
+            User user = db.Users.Where(u => u.FbId.Equals(fbId)).FirstOrDefault();
+            if (user == null) {
+                return -1;
             }
-            return sBuilder.ToString();
+            return user.Id;
         }
-        */
     }
 }

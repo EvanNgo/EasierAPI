@@ -32,6 +32,9 @@ namespace EasierAPI.Models
         public System.DateTime UpdatedDate { get; set; }
         public bool EmailVerity { get; set; }
         public string Thumbnail { get; set; }
+        public string FbId { get; set; }
+        public int Type { get; set; }
+        public string GgId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Question> Questions { get; set; }

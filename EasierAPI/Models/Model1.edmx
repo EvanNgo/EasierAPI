@@ -74,6 +74,9 @@
           <Property Name="UpdatedDate" Type="date" Nullable="false" />
           <Property Name="EmailVerity" Type="bit" Nullable="false" />
           <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
+          <Property Name="FbId" Type="varchar" MaxLength="255" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="GgId" Type="varchar" MaxLength="255" />
         </EntityType>
         <Association Name="FK_Answer_ChoiceID">
           <End Role="Choices" Type="Self.Choices" Multiplicity="1" />
@@ -271,6 +274,9 @@
           <NavigationProperty Name="QuestionAnswers" Relationship="easi5810_easierjlptModel.FK_Answer_UserID" FromRole="User" ToRole="QuestionAnswer" />
           <NavigationProperty Name="QuestionComments" Relationship="easi5810_easierjlptModel.FK_Comment_UserID" FromRole="User" ToRole="QuestionComment" />
           <NavigationProperty Name="QuestionLikes" Relationship="easi5810_easierjlptModel.FK_Like_UserID" FromRole="User" ToRole="QuestionLike" />
+          <Property Name="FbId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="GgId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_User">
           <End Role="Users" Type="Self.User" Multiplicity="1" />
@@ -499,6 +505,9 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="easi5810_easierjlptModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="GgId" ColumnName="GgId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="FbId" ColumnName="FbId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />

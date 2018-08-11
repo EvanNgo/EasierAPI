@@ -23,6 +23,9 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="easi5810_easierjlptModel.User">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="GgId" ColumnName="GgId" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="FbId" ColumnName="FbId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />
           <ScalarProperty Name="Email" ColumnName="Email" />

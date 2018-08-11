@@ -77,25 +77,4 @@ ALTER TABLE [dbo].[QuestionComments] ADD CreatedDate DATE NOT NULL DEFAULT(GETDA
 
 ALTER TABLE [dbo].[Questions] ADD isHaveAnswer BIT NOT NULL DEFAULT(0);
 */
-/* 
-======================SELECT ANSWERED QUESTION ==========================
-select DISTINCT u.* from [dbo].[Questions] u
-inner join (select UserId,QuestionId from [dbo].[QuestionAnswers] where UserId = 1) a on u.id = a.QuestionId
-order by u.Id
-*/
-
-/*
-
-select DISTINCT temp.id,temp.UserId,temp.Title,temp.Thumbnail,temp.Level, temp.CreatedDate,temp.AnswerCount,temp.Content,temp.isHaveAnswer from (select u.*, isnull(a.UserId,-1) as AnswerUserId from [dbo].[Questions] as u
-full join [dbo].[QuestionAnswers] as a on u.id = a.QuestionId) as temp where temp.AnswerUserId != 1
-
-select DISTINCT u.* from [dbo].[Questions] as u
-left join [dbo].[QuestionAnswers] as a on u.id = a.QuestionId
-order by u.Id
-
-select * 
-from (select u.*, isnull(a.UserId,-1) as AnswerUserID 
-		from [dbo].[Questions] as u
-		full join (select * from [dbo].[QuestionAnswers] where UserId = 1) as a on u.id = a.QuestionId )
-as temp where temp.AnswerUserID = -1
-*/
+select * from users

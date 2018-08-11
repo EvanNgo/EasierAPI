@@ -69,6 +69,9 @@
     <Property Name="UpdatedDate" Type="date" Nullable="false" />
     <Property Name="EmailVerity" Type="bit" Nullable="false" />
     <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
+    <Property Name="FbId" Type="varchar" MaxLength="255" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="GgId" Type="varchar" MaxLength="255" />
   </EntityType>
   <Association Name="FK_Answer_ChoiceID">
     <End Role="Choices" Type="Self.Choices" Multiplicity="1" />
