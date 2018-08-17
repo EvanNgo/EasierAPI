@@ -57,7 +57,8 @@ namespace EasierAPI.Controllers
                             email = u.Email,
                             username = u.UserName,
                             thumbnail = u.Thumbnail,
-                            type = u.Type
+                            type = u.Type,
+                           created_date = u.CreatedDate
                        }).FirstOrDefault();
             if (user == null)
             {
@@ -72,21 +73,29 @@ namespace EasierAPI.Controllers
             return result;
         }
 
-        [Route("api/user/loginfb")]
+        [Route("api/user/loginsns")]
         [HttpPost]
-        public ResponseMessageModels LoginWithFacebook(User mUser)
+        public ResponseMessageModels LoginWithSNS(User mUser)
         {
             ResponseMessageModels result = new ResponseMessageModels();
-            if (mUser.FbId == null)
+            if (mUser.SnsId == null)
             {
                 result.status = 0;
-                result.message = "Email or Password is empty";
+                result.message = "Login Faild";
                 result.data = null;
                 return result;
             }
             mUser.Email = mUser.Email + ".com";
-            int id = FacebookIdExists(mUser.FbId);
+            int id = SnsIdExists(mUser);
             if (id == -1) {
+                if (UserExists(mUser.Email))
+                {
+                    result.status = 3;
+                    result.message = "Email is Exists";
+                    result.data = null;
+                    return result;
+                }
+                mUser.CreatedDate = DateTime.Now;
                 db.Users.Add(mUser);
                 db.SaveChanges();
                 var putBack = (from u in db.Users
@@ -97,8 +106,9 @@ namespace EasierAPI.Controllers
                                        email = u.Email,
                                        username = u.UserName,
                                        thumbnail = u.Thumbnail,
-                                       fbid = u.FbId,
-                                       type = u.Type
+                                       snsid = u.SnsId,
+                                       type = u.Type,
+                                       created_date = u.CreatedDate
                                    }).FirstOrDefault();
                 result.status = 1;
                 result.message = "Register With Facebook Success";
@@ -109,7 +119,7 @@ namespace EasierAPI.Controllers
             User user = db.Users.SingleOrDefault(u => u.Id == mUser.Id);
             if (user == null)
             {
-                result.status = 0;
+                result.status = 2;
                 result.message = "Error: User ID Invalid";
                 result.data = null;
                 return result;
@@ -126,8 +136,9 @@ namespace EasierAPI.Controllers
                                    email = u.Email,
                                    username = u.UserName,
                                    thumbnail = u.Thumbnail,
-                                   fbid = u.FbId,
-                                   type = u.Type
+                                   snsid = u.SnsId,
+                                   type = u.Type,
+                                   created_date = u.CreatedDate
                                }).FirstOrDefault();
             result.status = 1;
             result.message = "Login With Facebook Success";
@@ -176,6 +187,7 @@ namespace EasierAPI.Controllers
         {
             ResponseMessageModels result = new ResponseMessageModels();
             mUser.Email = mUser.Email + ".com";
+            mUser.CreatedDate = DateTime.Now;
             if (UserExists(mUser.Email)) {
                 result.status = 0;
                 result.message = "Register Fail, This is Email is used";
@@ -189,28 +201,6 @@ namespace EasierAPI.Controllers
             result.data = null;
             return result;
         }
-
-        /*
-        [Route("api/user/delete")]
-        [HttpPost]
-        public ResponseMessageModels Remove(User mUser)
-        {
-            ResponseMessageModels result = new ResponseMessageModels();
-            User user = db.Users.Find(mUser.Id);
-            if (user == null || ) {
-                result.status = 0;
-                result.message = "Not Found";
-                result.data = null;
-                return result;
-            }
-            db.Users.Remove(user);
-            db.SaveChanges();
-            result.status = 1;
-            result.message = "Remove Successfuly";
-            result.data = null;
-            return result;
-        }
-        */
 
         protected override void Dispose(bool disposing)
         {
@@ -226,13 +216,18 @@ namespace EasierAPI.Controllers
             return db.Users.Count(e => e.Email == email) > 0;
         }
 
-        private int FacebookIdExists(string fbId)
+        private int SnsIdExists(User mUser)
         {
-            User user = db.Users.Where(u => u.FbId.Equals(fbId)).FirstOrDefault();
-            if (user == null) {
+            var putBack = (from u in db.Users
+                           where u.SnsId == mUser.SnsId && u.Type == mUser.Type
+                           select new
+                           {
+                               Id = u.Id,
+                           }).FirstOrDefault();
+            if (putBack == null) {
                 return -1;
             }
-            return user.Id;
+            return putBack.Id;
         }
     }
 }

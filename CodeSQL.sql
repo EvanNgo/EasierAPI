@@ -76,5 +76,18 @@ ALTER TABLE [dbo].[Questions] ADD AnswerCount INT DEFAULT(0);
 ALTER TABLE [dbo].[QuestionComments] ADD CreatedDate DATE NOT NULL DEFAULT(GETDATE());
 
 ALTER TABLE [dbo].[Questions] ADD isHaveAnswer BIT NOT NULL DEFAULT(0);
+
+alter table Users ADD UpdatedDate DateTime NOT NULL DEFAULT(getdate())
+
+alter table Questions drop CurrentDate
+
+alter table Questions drop column CreatedDate
+
+alter table Questions ADD CreatedDate DateTime NOT NULL DEFAULT(getdate())
+
+UPDATE Users
+SET CreatedDate = GETDATE()
+FROM Users
+WHERE CreatedDate IS NULL
+
 */
-select * from users

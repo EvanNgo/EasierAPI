@@ -33,7 +33,7 @@
           <Property Name="QuestionId" Type="int" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="Message" Type="nvarchar" MaxLength="2083" Nullable="false" />
-          <Property Name="CreatedDate" Type="date" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="QuestionLikes">
           <Key>
@@ -53,13 +53,13 @@
           <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
           <Property Name="Level" Type="int" Nullable="false" />
           <Property Name="ColorId" Type="int" />
-          <Property Name="CreatedDate" Type="date" Nullable="false" />
           <Property Name="AnswerCount" Type="int" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="1000" />
           <Property Name="Type" Type="int" />
           <Property Name="LikeCount" Type="int" Nullable="false" />
           <Property Name="CommentCount" Type="int" Nullable="false" />
           <Property Name="isHaveAnswer" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -70,13 +70,11 @@
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Birthyear" Type="int" Nullable="false" />
           <Property Name="HashPass" Type="varchar" MaxLength="2083" />
-          <Property Name="CreatedDate" Type="date" Nullable="false" />
-          <Property Name="UpdatedDate" Type="date" Nullable="false" />
           <Property Name="EmailVerity" Type="bit" Nullable="false" />
           <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
-          <Property Name="FbId" Type="varchar" MaxLength="255" />
+          <Property Name="SnsId" Type="varchar" MaxLength="255" />
           <Property Name="Type" Type="int" Nullable="false" />
-          <Property Name="GgId" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
         <Association Name="FK_Answer_ChoiceID">
           <End Role="Choices" Type="Self.Choices" Multiplicity="1" />
@@ -244,7 +242,7 @@
           <Property Name="Thumbnail" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
           <Property Name="Level" Type="Int32" Nullable="false" />
           <Property Name="ColorId" Type="Int32" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="User" Relationship="Self.FK_User" FromRole="Questions" ToRole="Users" />
           <Property Name="AnswerCount" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Choices" Relationship="easi5810_easierjlptModel.FK_Question" FromRole="Question" ToRole="Choice" />
@@ -266,17 +264,15 @@
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Birthyear" Type="Int32" Nullable="false" />
           <Property Name="HashPass" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="EmailVerity" Type="Boolean" Nullable="false" />
           <Property Name="Thumbnail" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Questions" Relationship="Self.FK_User" FromRole="Users" ToRole="Questions" />
           <NavigationProperty Name="QuestionAnswers" Relationship="easi5810_easierjlptModel.FK_Answer_UserID" FromRole="User" ToRole="QuestionAnswer" />
           <NavigationProperty Name="QuestionComments" Relationship="easi5810_easierjlptModel.FK_Comment_UserID" FromRole="User" ToRole="QuestionComment" />
           <NavigationProperty Name="QuestionLikes" Relationship="easi5810_easierjlptModel.FK_Like_UserID" FromRole="User" ToRole="QuestionLike" />
-          <Property Name="FbId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Type" Type="Int32" Nullable="false" />
-          <Property Name="GgId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SnsId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_User">
           <End Role="Users" Type="Self.User" Multiplicity="1" />
@@ -381,7 +377,7 @@
           <Property Name="Message" Type="String" Nullable="false" MaxLength="2083" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Question" Relationship="easi5810_easierjlptModel.FK_Comment_QuestionID" FromRole="QuestionComment" ToRole="Question" />
           <NavigationProperty Name="User" Relationship="easi5810_easierjlptModel.FK_Comment_UserID" FromRole="QuestionComment" ToRole="User" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="QuestionLike">
           <Key>
@@ -505,16 +501,14 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="easi5810_easierjlptModel.User">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="GgId" ColumnName="GgId" />
+                <ScalarProperty Name="SnsId" ColumnName="SnsId" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="FbId" ColumnName="FbId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Birthyear" ColumnName="Birthyear" />
                 <ScalarProperty Name="HashPass" ColumnName="HashPass" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
                 <ScalarProperty Name="EmailVerity" ColumnName="EmailVerity" />
                 <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
               </MappingFragment>

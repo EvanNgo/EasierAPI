@@ -10,7 +10,7 @@
     <Property Name="Thumbnail" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
     <Property Name="Level" Type="Int32" Nullable="false" />
     <Property Name="ColorId" Type="Int32" />
-    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
     <NavigationProperty Name="User" Relationship="Self.FK_User" FromRole="Questions" ToRole="Users" />
     <Property Name="AnswerCount" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Choices" Relationship="easi5810_easierjlptModel.FK_Question" FromRole="Question" ToRole="Choice" />
@@ -32,17 +32,15 @@
     <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Birthyear" Type="Int32" Nullable="false" />
     <Property Name="HashPass" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
-    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
     <Property Name="EmailVerity" Type="Boolean" Nullable="false" />
     <Property Name="Thumbnail" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Questions" Relationship="Self.FK_User" FromRole="Users" ToRole="Questions" />
     <NavigationProperty Name="QuestionAnswers" Relationship="easi5810_easierjlptModel.FK_Answer_UserID" FromRole="User" ToRole="QuestionAnswer" />
     <NavigationProperty Name="QuestionComments" Relationship="easi5810_easierjlptModel.FK_Comment_UserID" FromRole="User" ToRole="QuestionComment" />
     <NavigationProperty Name="QuestionLikes" Relationship="easi5810_easierjlptModel.FK_Like_UserID" FromRole="User" ToRole="QuestionLike" />
-    <Property Name="FbId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="Type" Type="Int32" Nullable="false" />
-    <Property Name="GgId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="SnsId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="FK_User">
     <End Role="Users" Type="Self.User" Multiplicity="1" />
@@ -147,7 +145,7 @@
     <Property Name="Message" Type="String" Nullable="false" MaxLength="2083" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Question" Relationship="easi5810_easierjlptModel.FK_Comment_QuestionID" FromRole="QuestionComment" ToRole="Question" />
     <NavigationProperty Name="User" Relationship="easi5810_easierjlptModel.FK_Comment_UserID" FromRole="QuestionComment" ToRole="User" />
-    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
   </EntityType>
   <EntityType Name="QuestionLike">
     <Key>

@@ -28,13 +28,11 @@ namespace EasierAPI.Models
         public string Email { get; set; }
         public int Birthyear { get; set; }
         public string HashPass { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public System.DateTime UpdatedDate { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
         public bool EmailVerity { get; set; }
         public string Thumbnail { get; set; }
-        public string FbId { get; set; }
         public int Type { get; set; }
-        public string GgId { get; set; }
+        public string SnsId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Question> Questions { get; set; }

@@ -46,11 +46,12 @@ namespace EasierAPI.Controllers
                                AnswerCount = mQuestion.AnswerCount,
                                CommentCount = mQuestion.CommentCount,
                                LikeCount = mQuestion.LikeCount,
+                               CreatedDate = mQuestion.CreatedDate,
                                AnswerUserID = a == null ? -1 : a.AnswerUserId
                            };
             var question = (from u in mQuestions
                             where u.AnswerUserID == -1
-                            orderby u.Id descending
+                            orderby u.CreatedDate descending
                             select new
                             {
                                 id = u.Id,
@@ -64,6 +65,7 @@ namespace EasierAPI.Controllers
                                 comment_count = u.CommentCount,
                                 like_count = u.LikeCount,
                                 answer_count = u.AnswerCount,
+                                created_date = u.CreatedDate,
                                 is_liked = (from like in db.QuestionLikes where mUser.Id == like.UserId && like.QuestionId==u.Id select like.UserId).Count() > 0,
                                 choices = from choice in db.Choices
                                             where choice.QuestionId == u.Id
@@ -93,7 +95,34 @@ namespace EasierAPI.Controllers
             return result;
         }
 
-
+        [Route("api/created/questions/")]
+        [HttpPost]
+        public ResponseMessageModels GetCreatedQuestion(User mUser)
+        {
+            ResponseMessageModels result = new ResponseMessageModels();
+            var question = (from u in db.Questions
+                            where u.UserId == mUser.Id
+                            orderby u.CreatedDate descending
+                            select new
+                            {
+                                id = u.Id,
+                                title = u.Title,
+                                thumbnail = u.Thumbnail,
+                                level = u.Level,
+                                colorid = u.ColorId,
+                                content = u.Content,
+                                type = u.Type,
+                                comment_count = u.CommentCount,
+                                like_count = u.LikeCount,
+                                answer_count = u.AnswerCount,
+                                created_date = u.CreatedDate,
+                                is_liked = (from like in db.QuestionLikes where mUser.Id == like.UserId && like.QuestionId == u.Id select like.UserId).Count() > 0,
+                            }).Take(10);
+            result.status = 1;
+            result.message = "";
+            result.data = question;
+            return result;
+        }
 
         [Route("api/answered/questions/")]
         [HttpPost]
@@ -103,7 +132,7 @@ namespace EasierAPI.Controllers
             var question = (from u in db.Questions
                             join a in (from temp in db.QuestionAnswers where temp.UserId == mUser.Id select temp) on u.Id equals a.QuestionId
                             where a.UserId == mUser.Id
-                            orderby u.Id descending
+                            orderby u.CreatedDate descending
                             select new
                             {
                                 id = u.Id,
@@ -119,6 +148,7 @@ namespace EasierAPI.Controllers
                                 comment_count = u.CommentCount,
                                 like_count = u.LikeCount,
                                 answer_count = u.AnswerCount,
+                                created_date = u.CreatedDate,
                                 is_liked = (from like in db.QuestionLikes where mUser.Id == like.UserId && like.QuestionId == u.Id select like.UserId).Count() > 0,
                                 choices = from choice in db.Choices
                                           where choice.QuestionId == u.Id
@@ -139,12 +169,6 @@ namespace EasierAPI.Controllers
                                             thumbnail = user.Thumbnail
                                         }).FirstOrDefault()
                             }).Take(10);
-            if (question == null || question.Count() <= 0)
-            {
-                result.status = 0;
-                result.message = "Is Empty";
-                result.data = null;
-            }
             result.status = 1;
             result.message = "Get List User Successfully";
             result.data = question;
@@ -160,6 +184,7 @@ namespace EasierAPI.Controllers
             for (int i = 0; i < question.Choices.Count; i++) {
                 question.Choices.ElementAt(i).SelectedCount = 0;
             }
+            question.CreatedDate = DateTime.Now;
             db.Questions.Add(question);
             db.SaveChanges();           
             var mQuestion = from u in db.Questions
@@ -175,6 +200,7 @@ namespace EasierAPI.Controllers
                                 colorid = u.ColorId,
                                 content = u.Content,
                                 type = u.Type,
+                                created_date = u.CreatedDate,
                                 choices = from choice in db.Choices
                                           where choice.QuestionId == u.Id
                                           select new

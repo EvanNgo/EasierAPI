@@ -29,7 +29,7 @@ namespace EasierAPI.Models
         public string Thumbnail { get; set; }
         public int Level { get; set; }
         public Nullable<int> ColorId { get; set; }
-        public System.DateTime CreatedDate { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
         public int AnswerCount { get; set; }
         public string Content { get; set; }
         public Nullable<int> Type { get; set; }

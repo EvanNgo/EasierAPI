@@ -35,7 +35,7 @@ namespace EasierAPI.Controllers
         public ResponseMessageModels AddCommentQuestion(QuestionComment mComment)
         {
             ResponseMessageModels result = new ResponseMessageModels();
-           
+            mComment.CreatedDate = DateTime.Now;
             db.QuestionComments.Add(mComment);
             Question question = db.Questions.Find(mComment.QuestionId);
             question.CommentCount++;
@@ -58,14 +58,14 @@ namespace EasierAPI.Controllers
                                id = u.Id,
                                message = u.Message,
                                questionid = u.QuestionId,
-                               createddate = u.CreatedDate,
+                               created_date = u.CreatedDate,
                                user = (from user in db.Users where user.Id == u.UserId
                                        select new
                                        {
                                            id = u.Id,
                                            email = user.Email,
                                            username = user.UserName,
-                                           thumbnail = user.Thumbnail
+                                           thumbnail = user.Thumbnail,
                                        }).FirstOrDefault()
         };
             result.status = 1;

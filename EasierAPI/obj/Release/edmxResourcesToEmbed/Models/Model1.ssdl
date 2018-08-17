@@ -28,7 +28,7 @@
     <Property Name="QuestionId" Type="int" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
     <Property Name="Message" Type="nvarchar" MaxLength="2083" Nullable="false" />
-    <Property Name="CreatedDate" Type="date" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
   </EntityType>
   <EntityType Name="QuestionLikes">
     <Key>
@@ -48,13 +48,13 @@
     <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
     <Property Name="Level" Type="int" Nullable="false" />
     <Property Name="ColorId" Type="int" />
-    <Property Name="CreatedDate" Type="date" Nullable="false" />
     <Property Name="AnswerCount" Type="int" Nullable="false" />
     <Property Name="Content" Type="nvarchar" MaxLength="1000" />
     <Property Name="Type" Type="int" />
     <Property Name="LikeCount" Type="int" Nullable="false" />
     <Property Name="CommentCount" Type="int" Nullable="false" />
     <Property Name="isHaveAnswer" Type="bit" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
   </EntityType>
   <EntityType Name="Users">
     <Key>
@@ -65,13 +65,11 @@
     <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Birthyear" Type="int" Nullable="false" />
     <Property Name="HashPass" Type="varchar" MaxLength="2083" />
-    <Property Name="CreatedDate" Type="date" Nullable="false" />
-    <Property Name="UpdatedDate" Type="date" Nullable="false" />
     <Property Name="EmailVerity" Type="bit" Nullable="false" />
     <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
-    <Property Name="FbId" Type="varchar" MaxLength="255" />
+    <Property Name="SnsId" Type="varchar" MaxLength="255" />
     <Property Name="Type" Type="int" Nullable="false" />
-    <Property Name="GgId" Type="varchar" MaxLength="255" />
+    <Property Name="CreatedDate" Type="datetime" />
   </EntityType>
   <Association Name="FK_Answer_ChoiceID">
     <End Role="Choices" Type="Self.Choices" Multiplicity="1" />

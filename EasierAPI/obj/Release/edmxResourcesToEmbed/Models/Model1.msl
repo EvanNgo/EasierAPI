@@ -23,16 +23,14 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="easi5810_easierjlptModel.User">
         <MappingFragment StoreEntitySet="Users">
-          <ScalarProperty Name="GgId" ColumnName="GgId" />
+          <ScalarProperty Name="SnsId" ColumnName="SnsId" />
           <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="FbId" ColumnName="FbId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Birthyear" ColumnName="Birthyear" />
           <ScalarProperty Name="HashPass" ColumnName="HashPass" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
           <ScalarProperty Name="EmailVerity" ColumnName="EmailVerity" />
           <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
         </MappingFragment>
