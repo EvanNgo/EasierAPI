@@ -22,11 +22,19 @@ namespace EasierAPI.Controllers
         {
             ResponseMessageModels result = new ResponseMessageModels();
             QuestionComment comment = db.QuestionComments.Find(mComment.Id);
-            db.QuestionComments.Remove(comment);
-            db.SaveChanges();
-            result.status = 1;
-            result.message = "Remove Comment Successfully";
-            result.data = null;
+            if (comment.UserId == mComment.UserId)
+            {
+                db.QuestionComments.Remove(comment);
+                db.SaveChanges();
+                result.status = 1;
+                result.message = "Remove Comment Successfully";
+                result.data = null;
+            }
+            else {
+                result.status = 0;
+                result.message = "Can't Remove Comment";
+                result.data = null;
+            }
             return result;
         }
 
@@ -71,6 +79,27 @@ namespace EasierAPI.Controllers
             result.status = 1;
             result.message = "Get Comment List Successfully";
             result.data = comments;
+            return result;
+        }
+
+        [Route("api/question/comment/edit")]
+        [HttpPost]
+        public ResponseMessageModels EditComment(QuestionComment mComment)
+        {
+            ResponseMessageModels result = new ResponseMessageModels();
+            QuestionComment comment = db.QuestionComments.Find(mComment.Id);
+            if (comment == null || mComment.UserId != comment.UserId)
+            {
+                result.status = 0;
+                result.message = "Unknown Error";
+                result.data = null;
+                return result;
+            }
+            comment.Message = mComment.Message;
+            db.SaveChanges();
+            result.status = 1;
+            result.message = "Edit Comment Successfully";
+            result.data = null;
             return result;
         }
 

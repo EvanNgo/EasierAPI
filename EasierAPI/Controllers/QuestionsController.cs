@@ -16,9 +16,9 @@ namespace EasierAPI.Controllers
     {
         private easier_database db = new easier_database();
 
-        [Route("api/questions/")]
+        [Route("api/questions/{offset}/{dateTime}")]
         [HttpPost]
-        public ResponseMessageModels GetQuestion(User mUser)
+        public ResponseMessageModels GetQuestion(User mUser,[FromUri]int offset, [FromUri]DateTime dateTime)
         {
             ResponseMessageModels result = new ResponseMessageModels();
             var mAnswer = from answer
@@ -50,7 +50,7 @@ namespace EasierAPI.Controllers
                                AnswerUserID = a == null ? -1 : a.AnswerUserId
                            };
             var question = (from u in mQuestions
-                            where u.AnswerUserID == -1
+                            where u.AnswerUserID == -1 && u.CreatedDate < dateTime
                             orderby u.CreatedDate descending
                             select new
                             {
@@ -82,7 +82,7 @@ namespace EasierAPI.Controllers
                                         select new { username = user.UserName,
                                                     id = user.Id,
                                                     thumbnail = user.Thumbnail}).FirstOrDefault()
-                            }).Take(10);
+                            }).Take(offset);
             if (question == null || question.Count() <= 0)
             {
                 result.status = 0;
@@ -95,13 +95,34 @@ namespace EasierAPI.Controllers
             return result;
         }
 
-        [Route("api/created/questions/")]
+        [Route("api/question/edit")]
         [HttpPost]
-        public ResponseMessageModels GetCreatedQuestion(User mUser)
+        public ResponseMessageModels EditQuestion(Question mQuestion)
+        {
+            ResponseMessageModels result = new ResponseMessageModels();
+            Question question = db.Questions.Find(mQuestion.Id);
+            if (question == null || mQuestion.UserId != question.UserId)
+            {
+                result.status = 0;
+                result.message = "Unknown Error";
+                result.data = null;
+                return result;
+            }
+            question.Title = question.Title;
+            db.SaveChanges();
+            result.status = 1;
+            result.message = "Edit Question Successfully";
+            result.data = null;
+            return result;
+        }
+
+        [Route("api/created/questions/{offset}/{dateTime}")]
+        [HttpPost]
+        public ResponseMessageModels GetCreatedQuestion(User mUser, [FromUri]int offset, [FromUri]DateTime dateTime)
         {
             ResponseMessageModels result = new ResponseMessageModels();
             var question = (from u in db.Questions
-                            where u.UserId == mUser.Id
+                            where u.UserId == mUser.Id && u.CreatedDate < dateTime
                             orderby u.CreatedDate descending
                             select new
                             {
@@ -117,21 +138,21 @@ namespace EasierAPI.Controllers
                                 answer_count = u.AnswerCount,
                                 created_date = u.CreatedDate,
                                 is_liked = (from like in db.QuestionLikes where mUser.Id == like.UserId && like.QuestionId == u.Id select like.UserId).Count() > 0,
-                            }).Take(10);
+                            }).Take(offset);
             result.status = 1;
             result.message = "";
             result.data = question;
             return result;
         }
 
-        [Route("api/answered/questions/")]
+        [Route("api/answered/questions/{offset}/{dateTime}")]
         [HttpPost]
-        public ResponseMessageModels GetAnsweredQuestion(User mUser)
+        public ResponseMessageModels GetAnsweredQuestion(User mUser, [FromUri]int offset, [FromUri]DateTime dateTime)
         {
             ResponseMessageModels result = new ResponseMessageModels();
             var question = (from u in db.Questions
                             join a in (from temp in db.QuestionAnswers where temp.UserId == mUser.Id select temp) on u.Id equals a.QuestionId
-                            where a.UserId == mUser.Id
+                            where a.UserId == mUser.Id && u.CreatedDate < dateTime
                             orderby u.CreatedDate descending
                             select new
                             {
@@ -168,7 +189,7 @@ namespace EasierAPI.Controllers
                                             id = user.Id,
                                             thumbnail = user.Thumbnail
                                         }).FirstOrDefault()
-                            }).Take(10);
+                            }).Take(offset);
             result.status = 1;
             result.message = "Get List User Successfully";
             result.data = question;
