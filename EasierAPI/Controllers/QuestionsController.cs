@@ -16,9 +16,9 @@ namespace EasierAPI.Controllers
     {
         private easier_database db = new easier_database();
 
-        [Route("api/questions/{offset}/{dateTime}")]
+        [Route("api/questions")]
         [HttpPost]
-        public ResponseMessageModels GetQuestion(User mUser,[FromUri]int offset, [FromUri]DateTime dateTime)
+        public ResponseMessageModels GetQuestion(User mUser, [FromUri]int offset, [FromUri]DateTime dateTime)
         {
             ResponseMessageModels result = new ResponseMessageModels();
             var mAnswer = from answer
@@ -83,7 +83,7 @@ namespace EasierAPI.Controllers
                                                     id = user.Id,
                                                     thumbnail = user.Thumbnail}).FirstOrDefault()
                             }).Take(offset);
-            if (question == null || question.Count() <= 0)
+            if (question == null)
             {
                 result.status = 0;
                 result.message = "Is Empty";
@@ -116,7 +116,7 @@ namespace EasierAPI.Controllers
             return result;
         }
 
-        [Route("api/created/questions/{offset}/{dateTime}")]
+        [Route("api/created/questions")]
         [HttpPost]
         public ResponseMessageModels GetCreatedQuestion(User mUser, [FromUri]int offset, [FromUri]DateTime dateTime)
         {
@@ -145,7 +145,7 @@ namespace EasierAPI.Controllers
             return result;
         }
 
-        [Route("api/answered/questions/{offset}/{dateTime}")]
+        [Route("api/answered/questions")]
         [HttpPost]
         public ResponseMessageModels GetAnsweredQuestion(User mUser, [FromUri]int offset, [FromUri]DateTime dateTime)
         {
