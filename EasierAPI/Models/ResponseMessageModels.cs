@@ -9,6 +9,7 @@ namespace EasierAPI.Models
     {
         public int status { get; set; }
         public string message { get; set; }
+        public DateTime datetime { get; set; }
         public Object data { get; set; }
     }
 }

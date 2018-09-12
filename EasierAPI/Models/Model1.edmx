@@ -24,6 +24,7 @@
           <Property Name="QuestionId" Type="int" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="ChoiceId" Type="int" Nullable="false" />
+          <Property Name="AnsweredDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="QuestionComments">
           <Key>
@@ -33,7 +34,7 @@
           <Property Name="QuestionId" Type="int" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="Message" Type="nvarchar" MaxLength="2083" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="QuestionLikes">
           <Key>
@@ -59,7 +60,7 @@
           <Property Name="LikeCount" Type="int" Nullable="false" />
           <Property Name="CommentCount" Type="int" Nullable="false" />
           <Property Name="isHaveAnswer" Type="bit" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -74,7 +75,7 @@
           <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
           <Property Name="SnsId" Type="varchar" MaxLength="255" />
           <Property Name="Type" Type="int" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FK_Answer_ChoiceID">
           <End Role="Choices" Type="Self.Choices" Multiplicity="1" />
@@ -242,7 +243,7 @@
           <Property Name="Thumbnail" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
           <Property Name="Level" Type="Int32" Nullable="false" />
           <Property Name="ColorId" Type="Int32" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_User" FromRole="Questions" ToRole="Users" />
           <Property Name="AnswerCount" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Choices" Relationship="easi5810_easierjlptModel.FK_Question" FromRole="Question" ToRole="Choice" />
@@ -264,7 +265,7 @@
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Birthyear" Type="Int32" Nullable="false" />
           <Property Name="HashPass" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" Nullable="false" />
           <Property Name="EmailVerity" Type="Boolean" Nullable="false" />
           <Property Name="Thumbnail" Type="String" MaxLength="2083" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Questions" Relationship="Self.FK_User" FromRole="Users" ToRole="Questions" />
@@ -366,6 +367,7 @@
           <NavigationProperty Name="Choice" Relationship="easi5810_easierjlptModel.FK_Answer_ChoiceID" FromRole="QuestionAnswer" ToRole="Choice" />
           <NavigationProperty Name="Question" Relationship="easi5810_easierjlptModel.FK_Answer_QuestionID" FromRole="QuestionAnswer" ToRole="Question" />
           <NavigationProperty Name="User" Relationship="easi5810_easierjlptModel.FK_Answer_UserID" FromRole="QuestionAnswer" ToRole="User" />
+          <Property Name="AnsweredDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="QuestionComment">
           <Key>
@@ -377,7 +379,7 @@
           <Property Name="Message" Type="String" Nullable="false" MaxLength="2083" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Question" Relationship="easi5810_easierjlptModel.FK_Comment_QuestionID" FromRole="QuestionComment" ToRole="Question" />
           <NavigationProperty Name="User" Relationship="easi5810_easierjlptModel.FK_Comment_UserID" FromRole="QuestionComment" ToRole="User" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" Nullable="false" />
         </EntityType>
         <EntityType Name="QuestionLike">
           <Key>
@@ -529,6 +531,7 @@
           <EntitySetMapping Name="QuestionAnswers">
             <EntityTypeMapping TypeName="easi5810_easierjlptModel.QuestionAnswer">
               <MappingFragment StoreEntitySet="QuestionAnswers">
+                <ScalarProperty Name="AnsweredDate" ColumnName="AnsweredDate" />
                 <ScalarProperty Name="ChoiceId" ColumnName="ChoiceId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />

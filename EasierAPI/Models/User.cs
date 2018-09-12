@@ -28,7 +28,7 @@ namespace EasierAPI.Models
         public string Email { get; set; }
         public int Birthyear { get; set; }
         public string HashPass { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public System.DateTime CreatedDate { get; set; }
         public bool EmailVerity { get; set; }
         public string Thumbnail { get; set; }
         public int Type { get; set; }

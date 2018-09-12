@@ -51,6 +51,7 @@
     <EntitySetMapping Name="QuestionAnswers">
       <EntityTypeMapping TypeName="easi5810_easierjlptModel.QuestionAnswer">
         <MappingFragment StoreEntitySet="QuestionAnswers">
+          <ScalarProperty Name="AnsweredDate" ColumnName="AnsweredDate" />
           <ScalarProperty Name="ChoiceId" ColumnName="ChoiceId" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />

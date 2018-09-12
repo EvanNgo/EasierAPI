@@ -18,7 +18,7 @@ namespace EasierAPI.Controllers
 
         [Route("api/questions")]
         [HttpPost]
-        public ResponseMessageModels GetQuestion(User mUser, [FromUri]int offset, [FromUri]DateTime dateTime)
+        public ResponseMessageModels GetQuestion(User mUser, [FromUri]int limit, [FromUri]int skip, [FromUri]DateTime dateTime)
         {
             ResponseMessageModels result = new ResponseMessageModels();
             var mAnswer = from answer
@@ -50,7 +50,7 @@ namespace EasierAPI.Controllers
                                AnswerUserID = a == null ? -1 : a.AnswerUserId
                            };
             var question = (from u in mQuestions
-                            where u.AnswerUserID == -1 && u.CreatedDate < dateTime
+                            where u.AnswerUserID == -1 && u.CreatedDate <= dateTime
                             orderby u.CreatedDate descending
                             select new
                             {
@@ -82,7 +82,7 @@ namespace EasierAPI.Controllers
                                         select new { username = user.UserName,
                                                     id = user.Id,
                                                     thumbnail = user.Thumbnail}).FirstOrDefault()
-                            }).Take(offset);
+                            }).Take(limit).Skip(skip);
             if (question == null)
             {
                 result.status = 0;
@@ -118,11 +118,11 @@ namespace EasierAPI.Controllers
 
         [Route("api/created/questions")]
         [HttpPost]
-        public ResponseMessageModels GetCreatedQuestion(User mUser, [FromUri]int offset, [FromUri]DateTime dateTime)
+        public ResponseMessageModels GetCreatedQuestion(User mUser, [FromUri]int limit, [FromUri]int skip, [FromUri]DateTime dateTime)
         {
             ResponseMessageModels result = new ResponseMessageModels();
             var question = (from u in db.Questions
-                            where u.UserId == mUser.Id && u.CreatedDate < dateTime
+                            where u.UserId == mUser.Id && u.CreatedDate <= dateTime
                             orderby u.CreatedDate descending
                             select new
                             {
@@ -138,7 +138,7 @@ namespace EasierAPI.Controllers
                                 answer_count = u.AnswerCount,
                                 created_date = u.CreatedDate,
                                 is_liked = (from like in db.QuestionLikes where mUser.Id == like.UserId && like.QuestionId == u.Id select like.UserId).Count() > 0,
-                            }).Take(offset);
+                            }).Take(limit).Skip(skip);
             result.status = 1;
             result.message = "";
             result.data = question;
@@ -147,12 +147,12 @@ namespace EasierAPI.Controllers
 
         [Route("api/answered/questions")]
         [HttpPost]
-        public ResponseMessageModels GetAnsweredQuestion(User mUser, [FromUri]int offset, [FromUri]DateTime dateTime)
+        public ResponseMessageModels GetAnsweredQuestion(User mUser, [FromUri]int limit, [FromUri]int skip, [FromUri]DateTime dateTime)
         {
             ResponseMessageModels result = new ResponseMessageModels();
             var question = (from u in db.Questions
                             join a in (from temp in db.QuestionAnswers where temp.UserId == mUser.Id select temp) on u.Id equals a.QuestionId
-                            where a.UserId == mUser.Id && u.CreatedDate < dateTime
+                            where a.UserId == mUser.Id && a.AnsweredDate <= dateTime
                             orderby u.CreatedDate descending
                             select new
                             {
@@ -163,6 +163,7 @@ namespace EasierAPI.Controllers
                                 colorid = u.ColorId,
                                 content = u.Content,
                                 type = u.Type,
+                                answered_date = a.AnsweredDate,
                                 selected_choice_id = a.ChoiceId,
                                 is_answered = true,
                                 is_have_answer = u.isHaveAnswer,
@@ -189,7 +190,7 @@ namespace EasierAPI.Controllers
                                             id = user.Id,
                                             thumbnail = user.Thumbnail
                                         }).FirstOrDefault()
-                            }).Take(offset);
+                            }).Take(limit).Skip(skip);
             result.status = 1;
             result.message = "Get List User Successfully";
             result.data = question;

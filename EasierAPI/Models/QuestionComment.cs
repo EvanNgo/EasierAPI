@@ -18,7 +18,7 @@ namespace EasierAPI.Models
         public int QuestionId { get; set; }
         public int UserId { get; set; }
         public string Message { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public System.DateTime CreatedDate { get; set; }
     
         public virtual Question Question { get; set; }
         public virtual User User { get; set; }

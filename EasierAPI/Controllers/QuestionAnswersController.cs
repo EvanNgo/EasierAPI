@@ -21,6 +21,7 @@ namespace EasierAPI.Controllers
         public ResponseMessageModels AnswerQuestion(QuestionAnswer mQuestionAnswer)
         {
             ResponseMessageModels result = new ResponseMessageModels();
+            mQuestionAnswer.AnsweredDate = DateTime.Now;
             db.QuestionAnswers.Add(mQuestionAnswer);
             Choice choice = db.Choices.Find(mQuestionAnswer.ChoiceId);
             Question question = db.Questions.Find(mQuestionAnswer.QuestionId);
@@ -30,6 +31,7 @@ namespace EasierAPI.Controllers
             result.status = 1;
             result.message = "Answered";
             result.data = question.AnswerCount;
+            result.datetime = mQuestionAnswer.AnsweredDate;
             return result;
         }
 

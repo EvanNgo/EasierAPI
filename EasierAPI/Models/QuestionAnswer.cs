@@ -18,6 +18,7 @@ namespace EasierAPI.Models
         public int QuestionId { get; set; }
         public int UserId { get; set; }
         public int ChoiceId { get; set; }
+        public System.DateTime AnsweredDate { get; set; }
     
         public virtual Choice Choice { get; set; }
         public virtual Question Question { get; set; }

@@ -51,6 +51,7 @@ namespace EasierAPI.Controllers
             result.status = 1;
             result.message = "Added Comment Successfully";
             result.data = question.CommentCount;
+            result.datetime = mComment.CreatedDate;
             return result;
         }
 
@@ -70,7 +71,7 @@ namespace EasierAPI.Controllers
                                user = (from user in db.Users where user.Id == u.UserId
                                        select new
                                        {
-                                           id = u.Id,
+                                           id = user.Id,
                                            email = user.Email,
                                            username = user.UserName,
                                            thumbnail = user.Thumbnail,
