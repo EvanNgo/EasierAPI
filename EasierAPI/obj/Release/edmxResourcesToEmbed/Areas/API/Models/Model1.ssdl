@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="easi5810_easierjlptModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Choices">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuestionId" Type="int" Nullable="false" />
+    <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
+    <Property Name="SelectedCount" Type="int" Nullable="false" />
+    <Property Name="IsTrue" Type="bit" />
+    <Property Name="Message" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="QuestionAnswers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuestionId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="ChoiceId" Type="int" Nullable="false" />
+    <Property Name="AnsweredDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuestionComments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuestionId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Message" Type="nvarchar" MaxLength="2083" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuestionLikes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuestionId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Questions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="255" />
+    <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
+    <Property Name="Level" Type="int" Nullable="false" />
+    <Property Name="ColorId" Type="int" />
+    <Property Name="AnswerCount" Type="int" Nullable="false" />
+    <Property Name="Content" Type="nvarchar" MaxLength="1000" />
+    <Property Name="Type" Type="int" />
+    <Property Name="LikeCount" Type="int" Nullable="false" />
+    <Property Name="CommentCount" Type="int" Nullable="false" />
+    <Property Name="isHaveAnswer" Type="bit" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="25" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Birthyear" Type="int" Nullable="false" />
+    <Property Name="HashPass" Type="varchar" MaxLength="2083" />
+    <Property Name="EmailVerity" Type="bit" Nullable="false" />
+    <Property Name="Thumbnail" Type="varchar" MaxLength="2083" />
+    <Property Name="SnsId" Type="varchar" MaxLength="255" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Answer_ChoiceID">
+    <End Role="Choices" Type="Self.Choices" Multiplicity="1" />
+    <End Role="QuestionAnswers" Type="Self.QuestionAnswers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Choices">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionAnswers">
+        <PropertyRef Name="ChoiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Answer_QuestionID">
+    <End Role="Questions" Type="Self.Questions" Multiplicity="1" />
+    <End Role="QuestionAnswers" Type="Self.QuestionAnswers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionAnswers">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Answer_UserID">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="QuestionAnswers" Type="Self.QuestionAnswers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionAnswers">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_QuestionID">
+    <End Role="Questions" Type="Self.Questions" Multiplicity="1" />
+    <End Role="QuestionComments" Type="Self.QuestionComments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionComments">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_UserID">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="QuestionComments" Type="Self.QuestionComments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionComments">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Like_QuestionID">
+    <End Role="Questions" Type="Self.Questions" Multiplicity="1" />
+    <End Role="QuestionLikes" Type="Self.QuestionLikes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionLikes">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Like_UserID">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="QuestionLikes" Type="Self.QuestionLikes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionLikes">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Question">
+    <End Role="Questions" Type="Self.Questions" Multiplicity="1" />
+    <End Role="Choices" Type="Self.Choices" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Choices">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Questions">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="easi5810_easierjlptModelStoreContainer">
+    <EntitySet Name="Choices" EntityType="Self.Choices" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuestionAnswers" EntityType="Self.QuestionAnswers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuestionComments" EntityType="Self.QuestionComments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuestionLikes" EntityType="Self.QuestionLikes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Questions" EntityType="Self.Questions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Answer_ChoiceID" Association="Self.FK_Answer_ChoiceID">
+      <End Role="Choices" EntitySet="Choices" />
+      <End Role="QuestionAnswers" EntitySet="QuestionAnswers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Answer_QuestionID" Association="Self.FK_Answer_QuestionID">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="QuestionAnswers" EntitySet="QuestionAnswers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Answer_UserID" Association="Self.FK_Answer_UserID">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="QuestionAnswers" EntitySet="QuestionAnswers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_QuestionID" Association="Self.FK_Comment_QuestionID">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="QuestionComments" EntitySet="QuestionComments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_UserID" Association="Self.FK_Comment_UserID">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="QuestionComments" EntitySet="QuestionComments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Like_QuestionID" Association="Self.FK_Like_QuestionID">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="QuestionLikes" EntitySet="QuestionLikes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Like_UserID" Association="Self.FK_Like_UserID">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="QuestionLikes" EntitySet="QuestionLikes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Question" Association="Self.FK_Question">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="Choices" EntitySet="Choices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User" Association="Self.FK_User">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Questions" EntitySet="Questions" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
