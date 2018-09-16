@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using EasierAPI.Areas.API.Models;
+using EasierAPI.Models;
 
 namespace EasierAPI.Controllers
 {

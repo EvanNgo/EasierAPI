@@ -15,7 +15,7 @@ interface JQueryAutocompleteOptions {
     type?: string;
     noCache?: boolean;
     onSearchStart? (query: string): void;
-    onSearchComplete?(query: string): void;
+    onSearchComplete? (query: string): void;
     tabDisabled?: boolean;
     paramName?: string;
     transformResult? (response: any, originalQuery: string): AutocompleteSuggestion[];

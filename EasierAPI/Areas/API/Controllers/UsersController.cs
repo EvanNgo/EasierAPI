@@ -2,7 +2,7 @@
 using System.Data;
 using System.Linq;
 using System.Web.Http;
-using EasierAPI.Areas.API.Models;
+using EasierAPI.Models;
 
 namespace EasierAPI.Controllers
 {

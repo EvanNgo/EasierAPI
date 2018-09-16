@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EasierAPI.Areas.API.Models
+namespace EasierAPI.Models
 {
     using System;
     using System.Collections.Generic;

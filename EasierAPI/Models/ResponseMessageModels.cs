@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace EasierAPI.Areas.API.Models
+namespace EasierAPI.Models
 {
     public class ResponseMessageModels
     {

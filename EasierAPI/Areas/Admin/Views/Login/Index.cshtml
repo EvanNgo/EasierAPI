@@ -2,7 +2,7 @@
 @{
     Layout = null;
 }
-
+@model EasierAPI.Models.LoginModel
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,21 +31,22 @@
     <div class="container">
         <div class="login_wrapper">
             <section class="login_content">
-                <% Html.EnableClientValidation(); %>
-                <% using (Html.BeginForm()) {>
-                <form>
-                    <h2>Easier JLPT</h2>
-                    <div class="login_cell">
-                        Email:
-                        <input type="text" class="form-control" placeholder="Email" required="" />
-                    </div>
-                    <div class="login_cell">
-                        Password:
-                        <input type="password" class="form-control" placeholder="Password" required="" />
-                    </div>
-                    <input type="submit" value="Login" class="btn_login" name="action"/>
-                </form>
-                <% } %>
+                @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+                {
+                    @Html.ValidationSummary(false,"","error")
+                    <fieldset>
+                        <h2>Easier JLPT</h2>
+                        <div class="login_cell">
+                            Email:
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @autofocus = "autofocus" })
+                        </div>
+                        <div class="login_cell">
+                            Password:
+                            @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                        </div>
+                        <input type="submit" value="Login" class="btn_login" name="action" />
+                    </fieldset>
+                }
             </section>
         </div>
     </div>
