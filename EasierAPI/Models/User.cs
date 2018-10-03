@@ -9,9 +9,11 @@
 
 namespace EasierAPI.Models
 {
+    using EasierAPI.Utils;
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,7 +24,13 @@ namespace EasierAPI.Models
             this.QuestionComments = new HashSet<QuestionComment>();
             this.QuestionLikes = new HashSet<QuestionLike>();
         }
-    
+
+        public User(UserRegisterModel userRegisterModel) {
+            this.Email = userRegisterModel.Email;
+            this.UserName = userRegisterModel.Username;
+            this.HashPass = CommonUtils.getMd5Hash(userRegisterModel.HashPass);
+            this.CreatedDate = DateTime.Now;
+        }
         public int Id { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }

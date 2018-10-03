@@ -91,5 +91,3 @@ FROM Users
 WHERE CreatedDate IS NULL
 
 */
-
-select * from users

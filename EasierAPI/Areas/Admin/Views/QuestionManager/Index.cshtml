@@ -1,0 +1,88 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Question Manager";
+}
+@model EasierAPI.Models.NewQuestionModel
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Questions</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <table id="datatable" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Question</th>
+                            <th>Answers</th>
+                            <th>Likes</th>
+                            <th>Comments</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var question in ViewBag.Questions)
+                        {
+                            <tr>
+                                <td>@question.User.UserName</td>
+                                <td>@question.Title</td>
+                                <td>@question.QuestionAnswers.Count</td>
+                                <td>@question.QuestionLikes.Count</td>
+                                <td>@question.QuestionComments.Count</td>
+                                <td>@question.CreatedDate</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="dataTables_paginate paging_simple_numbers">
+                    @Html.PagedListPager((IPagedList)ViewBag.Questions, page => Url.Action("Index", new { page = page }))
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>New Questions</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @using (Html.BeginForm("CreateQuestion", "QuestionManager", FormMethod.Post))
+                {
+                <fieldset>
+                    <div class="login_cell">
+                        User ID:
+                        @Html.TextBoxFor(model => model.UserId, new { @class = "form-control", @autofocus = "autofocus" })
+                    </div>
+                    <div class="login_cell">
+                        Title:
+                        @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @autofocus = "autofocus" })
+                    </div>
+                    <div class="login_cell">
+                        Detail:
+                        @Html.PasswordFor(model => model.Detail, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationSummary(false, "", "error")
+                    <input type="submit" value="Login" class="btn_login" name="action" />
+                </fieldset>
+                }
+            </div>
+        </div>
+    </div>
+</div>

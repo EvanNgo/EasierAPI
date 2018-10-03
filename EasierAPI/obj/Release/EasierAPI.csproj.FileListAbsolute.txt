@@ -125,13 +125,11 @@ E:\Github\EasierAPI\EasierAPI\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\Microsoft.VisualBasic.Core.targets
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\Microsoft.Win32.Primitives.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.AppContext.dll
-E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.Collections.Immutable.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.Console.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.Diagnostics.Process.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.Diagnostics.StackTrace.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.IO.Compression.dll
-E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.IO.FileSystem.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.IO.FileSystem.Primitives.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.IO.Pipes.dll
@@ -140,7 +138,6 @@ E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.Security.AccessControl.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.Security.Claims.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.Security.Cryptography.Algorithms.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.Security.Cryptography.Encoding.dll
-E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.Security.Cryptography.Primitives.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.Security.Principal.Windows.dll
 E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.Text.Encoding.CodePages.dll
@@ -311,4 +308,11 @@ C:\Users\EvanNgo\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.csproj.CoreCom
 C:\Users\EvanNgo\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.csproj.CopyComplete
 C:\Users\EvanNgo\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.dll
 C:\Users\EvanNgo\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.pdb
+E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.Collections.Immutable.dll
+E:\Github\EasierAPI\EasierAPI\bin\PagedList.dll
+E:\Github\EasierAPI\EasierAPI\bin\PagedList.Mvc.dll
+E:\Github\EasierAPI\EasierAPI\bin\PagedList.xml
+E:\Github\EasierAPI\EasierAPI\bin\PagedList.Mvc.xml
+E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.IO.FileSystem.dll
+E:\Github\EasierAPI\EasierAPI\bin\roslyn\System.Security.Cryptography.Primitives.dll
 E:\Github\EasierAPI\EasierAPI\obj\Release\EasierAPI.csprojAssemblyReference.cache

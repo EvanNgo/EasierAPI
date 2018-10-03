@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using EasierAPI.Models;
+using EasierAPI.Utils;
 
 namespace EasierAPI.Areas.Admin.Controllers
 {
@@ -13,7 +14,9 @@ namespace EasierAPI.Areas.Admin.Controllers
         // GET: Admin/Home
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            ViewBag.User = db.Users.ToList();
+            ViewBag.Question = db.Questions.ToList();
+            return View();
         }
     }
 }

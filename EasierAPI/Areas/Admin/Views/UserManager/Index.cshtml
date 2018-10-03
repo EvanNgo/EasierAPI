@@ -1,0 +1,52 @@
+﻿@model EasierAPI.Models.UserRegisterModel
+@{
+    ViewBag.Title = "Index";
+}
+@using (Html.BeginForm("Register", "UserManager", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+{
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+            Username <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @autofocus = "autofocus" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
+            Email <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+            Password <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.PasswordFor(model => model.HashPass, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+            Confirm Password <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.PasswordFor(model => model.ConfirmHashPass, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="ln_solid"></div>
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.ValidationSummary(false, "", "error")
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+            <button class="btn btn-primary" type="button">Cancel</button>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+}
